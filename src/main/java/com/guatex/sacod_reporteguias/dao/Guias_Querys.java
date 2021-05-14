@@ -24,7 +24,7 @@ public class Guias_Querys extends Conexion {
 	private ResultSet rs;
 	private CallableStatement cs;
 
-	//REPORTE GUIASCOD GENERAL
+	// REPORTE GUIASCOD GENERAL
 	public List<Guia> getGuiasCOD_General(String fechaIni, String fechaFin) throws SQLException {
 		List<Guia> guias = null;
 		try {
@@ -74,11 +74,13 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -89,7 +91,7 @@ public class Guias_Querys extends Conexion {
 		}
 	}
 
-	//REPORTE GUIASCOD GENERAL X CLIENTE
+	// REPORTE GUIASCOD GENERAL X CLIENTE
 	public List<Guia> getGuiasCOD_GeneralXCliente(String fechaIni, String fechaFin, String CodCob) throws SQLException {
 		List<Guia> guias = null;
 		try {
@@ -139,11 +141,14 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
+
 				guias.add(guia);
 			}
 			return guias;
@@ -154,7 +159,7 @@ public class Guias_Querys extends Conexion {
 		}
 	}
 
-	//REPORTE GUIASCOD ENTREGADAS
+	// REPORTE GUIASCOD ENTREGADAS
 	public List<Guia> getGuiasCOD_Entregadas(String fechaIni, String fechaFin) throws SQLException {
 		List<Guia> guias = null;
 		try {
@@ -202,11 +207,13 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -267,11 +274,13 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -330,11 +339,13 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -395,11 +406,13 @@ public class Guias_Querys extends Conexion {
 				guia.setLIQUIDADORAG(rs.getString("LIQUIDADORAG"));
 				guia.setLIQUIDADOAG(rs.getString("LIQUIDADOAG"));
 				guia.setNOCUADRECAJA(rs.getString("NOCUADRECAJA"));
+				guia.setESTADO(rs.getString("ESTADO"));
 				guia.setFECHACUADRE(rs.getString("FECHACUADRE"));
 				guia.setNOMBRELIQUI(rs.getString("NOMBRELIQUI"));
 				guia.setNOMBREUSULI(rs.getString("NOMBREUSULI"));
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -455,6 +468,8 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setFEMISION(rs.getString("FEMISION"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -513,6 +528,8 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setFEMISION(rs.getString("FEMISION"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -569,6 +586,7 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -627,6 +645,7 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -686,6 +705,8 @@ public class Guias_Querys extends Conexion {
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
 				guia.setBanco(rs.getString("BANCO"));
 				guia.setNoCuenta(rs.getString("NOCUENTA"));
+				guia.setFEMISION(rs.getString("FEMISION"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -745,6 +766,8 @@ public class Guias_Querys extends Conexion {
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
 				guia.setBanco(rs.getString("BANCO"));
 				guia.setNoCuenta(rs.getString("NOCUENTA"));
+				guia.setFEMISION(rs.getString("FEMISION"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				guias.add(guia);
 			}
 			return guias;
@@ -800,6 +823,7 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -859,6 +883,7 @@ public class Guias_Querys extends Conexion {
 				guia.setNombreusuli(rs.getString("NOMBREUSULI"));
 				guia.setUbicacionliqui(rs.getString("UBICACIONLIQUI"));
 				guia.setUbicacionusuli(rs.getString("UBICACIONUSULI"));
+				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
 				// guia.setBanco(rs.getString("BANCO"));
 				// guia.setNoCuenta(rs.getString("NOCUENTA"));
 				guias.add(guia);
@@ -1012,6 +1037,7 @@ public class Guias_Querys extends Conexion {
 				resumenAcr.setAutorizacion(rs.getString("IDREPORTE"));
 				resumenAcr.setBanco(rs.getString("BANNOMBRE"));
 				resumenAcr.setNoCuenta(rs.getString("NOCUENTA"));
+				resumenAcr.setTipoCuenta(rs.getString("TIPOCUENTA"));
 				pendientes.add(resumenAcr);
 			}
 			return pendientes;

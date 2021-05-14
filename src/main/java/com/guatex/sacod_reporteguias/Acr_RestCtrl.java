@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guatex.sacod_reporteguias.dao.*;
 import com.guatex.sacod_reporteguias.entities.*;
 
-@SpringBootApplication
+
 @RestController
 @RequestMapping("/AcrCOD")
 public class Acr_RestCtrl {
@@ -107,12 +107,66 @@ public class Acr_RestCtrl {
 		try {
 			for (String s : codigos.split(",")) {
 				recibos.addAll(new Liquidacion_Querys().getRecibosCajaxCliente(fechaIni, fechaFin, s));
+				System.out.println(s);
 			}
 		} catch (Exception e) {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
 		return recibos;
+	}
+
+	@GetMapping("/RecibosCaja")
+	public List<ReciboCaja> getRecibosCaja(@RequestParam String fechaIni, @RequestParam String fechaFin) {
+		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
+		try {
+			for (PuntoLiquidacion p : new Liquidacion_Querys().getPuntosLiquidacion()) {
+				recibos.addAll(new Liquidacion_Querys().getRecibosCajaxCliente(fechaIni, fechaFin, p.getCodigo()));
+			}
+		} catch (Exception e) {
+			logger.info("Algo malio sal... err: " + e);
+			e.printStackTrace();
+		}
+		return recibos;
+	}
+
+	@GetMapping("/ReciboCOD")
+	public ReciboCaja getReciboCOD(@RequestParam String recibo) {
+		String[] tmp = recibo.split("-");
+		System.out.println("recibo: "+recibo+" "+tmp.length);
+		if (tmp.length > 1) {
+			String serie = tmp[0];
+			String numero = tmp[1];
+			System.out.println(serie+"-"+numero);
+			if (!serie.isEmpty() && !numero.isEmpty()) {
+				try {
+					return new Liquidacion_Querys().getRecibo(serie.trim(), numero.trim());
+				} catch (Exception e) {
+					logger.info("Algo malio sal... err: " + e);
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+
+
+	@GetMapping("/ReciboCODxGuia")
+	public ReciboCaja getReciboCODxGuia(@RequestParam String noguia) {
+		String temp = new Liquidacion_Querys().getNumRecibo(noguia);
+		if (!temp.isEmpty()) {
+			String[] tmp = temp.split("-");
+			try {
+				String serie = tmp[0];
+				String numero = tmp[1];
+				return new Liquidacion_Querys().getRecibo(serie, numero);
+			} catch (Exception e) {
+				logger.info("Algo malio sal... err: " + e);
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	@GetMapping("/PuntosLiquidacion")

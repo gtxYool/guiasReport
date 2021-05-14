@@ -12,7 +12,7 @@ public class Guia {
 			DIRDES1, P_RECIBIO, PFECHA, TELDES, PTOORI, PTODES, LLAVECLIENTE, IdReporte, FACE_SERIE, FACE_PREIMPRESO,
 			SERIECOD, FACTURACOD, LIQUIDADO, FPREAUTORIZA, FAUTORIZA, FACREDITA, FFACTURAGTX, FFACTURAGUA, UPREAUTORIZA,
 			UAUTORIZA, UACREDITA, UFACTURAGTX, UFACTURAGUA, LIQUIDADORAG, LIQUIDADOAG, NOCUADRECAJA, FECHACUADRE,
-			NOMBRELIQUI, NOMBREUSULI, UBICACIONLIQUI, UBICACIONUSULI;
+			NOMBRELIQUI, NOMBREUSULI, UBICACIONLIQUI, UBICACIONUSULI, ESTADO, FEMISION, TIPO_COBRO;
 
 	public Guia() {
 	}
@@ -69,12 +69,12 @@ public class Guia {
 			try {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				fecha=(format2.format(format.parse(fecha)));
+				fecha = (format2.format(format.parse(fecha)));
 			} catch (ParseException ex) {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 				try {
-					fecha=(format2.format(format.parse(fecha)));
+					fecha = (format2.format(format.parse(fecha)));
 				} catch (ParseException e) {
 				}
 			}
@@ -659,4 +659,59 @@ public class Guia {
 		UBICACIONUSULI = notNull(uBICACIONUSULI);
 	}
 
+	/**
+	 * @return the eSTADO
+	 */
+	public String getESTADO() {
+		return notNull(ESTADO);
+	}
+
+	/**
+	 * @return the fEMISION
+	 */
+	public String getFEMISION() {
+		return notNull(FEMISION);
+	}
+
+	/**
+	 * @param fEMISION the fEMISION to set
+	 */
+	public void setFEMISION(String fEMISION) {
+		FEMISION = notNull(fEMISION);
+	}
+
+	/**
+	 * @return the tIPO_COBRO
+	 */
+	public String getTIPO_COBRO() {
+		return notNull(TIPO_COBRO);
+	}
+
+	/**
+	 * @param tIPO_COBRO the tIPO_COBRO to set
+	 */
+	public void setTIPO_COBRO(String tIPO_COBRO) {
+		TIPO_COBRO = notNull(tIPO_COBRO);
+	}
+
+	/**
+	 * @param eSTADO the eSTADO to set
+	 */
+	public void setESTADO(String eSTADO) {
+		eSTADO = notNull(eSTADO);
+		switch (eSTADO) {
+		case "N":
+			this.ESTADO = "PENDIENTE";
+			break;
+		case "A":
+			this.ESTADO = "ANULADA";
+			break;
+		case "V":
+			this.ESTADO = "CONSOLIDADA";
+			break;
+		default:
+			this.ESTADO = "";
+			break;
+		}
+	}
 }

@@ -7,6 +7,7 @@ public class GuiaXLiquidacion {
 	private String numero;
 	private String noguia;
 	private String total;
+	private String estado;
 
 	public GuiaXLiquidacion() {
 		// TODO Auto-generated constructor stub
@@ -82,8 +83,35 @@ public class GuiaXLiquidacion {
 		this.noguia = notNull(noguia);
 	}
 
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return notNull(estado);
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String eSTADO) {
+		eSTADO = notNull(eSTADO);
+		switch (eSTADO) {
+		case "N":
+			this.estado = "PENDIENTE";
+			break;
+		case "A":
+			this.estado = "ANULADA";
+			break;
+		case "V":
+			this.estado = "CONSOLIDADA";
+			break;
+		default:
+			this.estado = "";
+			break;
+		}
+	}
+
 	private String notNull(String var) {
 		return var != null ? var.trim() : "";
 	}
-
 }

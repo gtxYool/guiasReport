@@ -39,6 +39,7 @@ public class Liquidacion_Querys extends Conexion {
 				guia.setNumero(rs.getString("F_NUMERO"));
 				guia.setNoguia(rs.getString("F_NOGUIA"));
 				guia.setTotal(rs.getString("F_TOTAL"));
+				guia.setEstado(rs.getString("estado"));
 				guias.add(guia);
 			}
 			return guias;
@@ -127,7 +128,7 @@ public class Liquidacion_Querys extends Conexion {
 		} catch (Exception e) {
 			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
 		} finally {
-
+			CloseAll(con, cs, rs);
 		}
 		return recibos;
 
@@ -153,5 +154,55 @@ public class Liquidacion_Querys extends Conexion {
 			CloseAll(con, ps, rs);
 		}
 		return puntos;
+	}
+
+	public String getNumRecibo(String noguia) {
+		String recibo = "";
+		try {
+			con = getConnection();
+			String query = "select F_SERIE+'-'+F_NUMERO as RECIBO from RECIBOCOD where F_NOGUIA=?";
+			ps = con.prepareStatement(query);
+			ps.setString(1, noguia);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				recibo =rs.getString("RECIBO");
+			}
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
+		} finally {
+			CloseAll(con, ps, rs);
+		}
+		return recibo;
+	}
+
+	public ReciboCaja getRecibo(String serie, String numero) {
+
+		try {
+			con = getConnection();
+			String query = "{call SACOD_getRecibo(?,?)}";
+			cs = con.prepareCall(query);
+			cs.setString(1, serie);
+			cs.setString(2, numero);
+			rs = cs.executeQuery();
+			if (rs.next()) {
+				ReciboCaja rbc = new ReciboCaja();
+				rbc.setRecibo(rs.getString("RECIBOCOD"));
+				rbc.setFecha(rs.getString("FECHA"));
+				rbc.setEntrega(rs.getString("ENTREGA"));
+				rbc.setnRecibe(rs.getString("RECIBE"));
+				rbc.setDireccion(rs.getString("DIRECCION"));
+				rbc.setTelefono(rs.getString("TELEFONO"));
+				rbc.setNoguia(rs.getString("NOGUIA"));
+				rbc.setPiezas(rs.getString("F_PIEZAS"));
+				rbc.setTotal(rs.getString("F_TOTAL"));
+				return rbc;
+			}
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
+		} finally {
+			CloseAll(con, cs, rs);
+		}
+		return null;
+
 	}
 }

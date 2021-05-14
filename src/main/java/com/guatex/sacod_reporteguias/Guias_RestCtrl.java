@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guatex.sacod_reporteguias.dao.*;
 import com.guatex.sacod_reporteguias.entities.*;
 
-@SpringBootApplication
+
 @RestController
 @RequestMapping("/GuiaCOD")
 public class Guias_RestCtrl {

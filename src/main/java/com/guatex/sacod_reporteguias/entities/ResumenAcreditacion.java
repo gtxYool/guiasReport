@@ -2,7 +2,7 @@ package com.guatex.sacod_reporteguias.entities;
 
 public class ResumenAcreditacion {
 	String fechaIni, fechaFin, codigo, nombre, acreditado, cantidadGuias, razonSocial, totalCOD, totalServ, totalAcr,
-			PorcentajeCOD, usuarioPreAu, usuarioAu, autorizacion, noCuenta, Banco;
+			PorcentajeCOD, usuarioPreAu, usuarioAu, autorizacion, noCuenta, Banco, tipoCuenta;
 
 	/**
 	 * @return the fechaIni
@@ -228,7 +228,24 @@ public class ResumenAcreditacion {
 		Banco = notNull(banco);
 	}
 
+	/**
+	 * 
+	 * @return the tipoCuenta
+	 */
+	public String getTipoCuenta() {
+		return notNull(tipoCuenta);
+	}
+
+	/**
+	 * 
+	 * @param tipoCuenta the tipoCuenta to set
+	 */
+	public void setTipoCuenta(String tipoCuenta) {
+		this.tipoCuenta = notNull(tipoCuenta);
+	}
+
 	private String notNull(String var) {
 		return var != null ? var.trim() : "";
 	}
+
 }

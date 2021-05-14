@@ -11,7 +11,7 @@ public class GuiaF {
 	private String Fecha, CodCob, Noguia, Cod_valorACobrar, Valor_Servicio, ValorACreditar, Porcentaje, FacturaCOD,
 			SerieCOD, ReciboCOD, Liquidado, IdReporte, FACE_SERIE, FACE_PREIMPRESO, fpreautoriza, fautoriza, facredita,
 			ffacturagtx, ffacturagua, upreautoriza, uautoriza, uacredita, ufacturagtx, ufacturagua, liquidadorag,
-			liquidadoag, nocuadrecaja, fechacuadre, nombreliqui, nombreusuli, ubicacionliqui, ubicacionusuli,banco,noCuenta;
+			liquidadoag, nocuadrecaja, fechacuadre, nombreliqui, nombreusuli, ubicacionliqui, ubicacionusuli,banco,noCuenta,FEmision,TIPO_COBRO;
 
 	public GuiaF() {
 
@@ -559,5 +559,35 @@ public class GuiaF {
 	 */
 	public void setNoCuenta(String noCuenta) {
 		this.noCuenta = notNull(noCuenta);
+	}
+
+	/**
+	 * @return the fEMISION
+	 */
+	public String getFEmision() {
+		return notNull(FEmision);
+	}
+
+
+	/**
+	 * @param fEMISION the fEMISION to set
+	 */
+	public void setFEMISION(String fEMISION) {
+		FEmision = notNull(fEMISION);
+	}
+
+	/**
+	 * @return the tIPO_COBRO
+	 */
+	public String getTIPO_COBRO() {
+		return notNull(TIPO_COBRO);
+	}
+
+
+	/**
+	 * @param tIPO_COBRO the tIPO_COBRO to set
+	 */
+	public void setTIPO_COBRO(String tIPO_COBRO) {
+		TIPO_COBRO = notNull(tIPO_COBRO);
 	}
 }
