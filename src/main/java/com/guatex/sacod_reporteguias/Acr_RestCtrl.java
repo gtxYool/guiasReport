@@ -1,8 +1,10 @@
 package com.guatex.sacod_reporteguias;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.guatex.sacod_reporteguias.dao.*;
 import com.guatex.sacod_reporteguias.entities.*;
-
 
 @RestController
 @RequestMapping("/AcrCOD")
@@ -102,7 +103,7 @@ public class Acr_RestCtrl {
 
 	@GetMapping("/RecibosCajaxCliente")
 	public List<ReciboCaja> getRecibosCajaxCliente(@RequestParam String fechaIni, @RequestParam String fechaFin,
-			@RequestParam String codigos) {
+			@RequestParam String codigos, @RequestParam String acr) {
 		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
 		try {
 			for (String s : codigos.split(",")) {
@@ -113,31 +114,74 @@ public class Acr_RestCtrl {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
-		return recibos;
+		//filtro por acreditado o no, segun el valor de acr
+		if (acr.isEmpty()) {
+			return recibos;
+		} else if (acr.equalsIgnoreCase("S")) {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("SI"))
+					.collect(Collectors.toList());
+		} else {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("NO"))
+					.collect(Collectors.toList());
+		}
 	}
 
-	@GetMapping("/RecibosCaja")
-	public List<ReciboCaja> getRecibosCaja(@RequestParam String fechaIni, @RequestParam String fechaFin) {
+	@GetMapping("/RecibosCajaxAgencia")
+	public List<ReciboCaja> getRecibosCajaxAgencia(@RequestParam String fechaIni, @RequestParam String fechaFin,
+			@RequestParam String codigos, @RequestParam String acr) {
 		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
 		try {
-			for (PuntoLiquidacion p : new Liquidacion_Querys().getPuntosLiquidacion()) {
-				recibos.addAll(new Liquidacion_Querys().getRecibosCajaxCliente(fechaIni, fechaFin, p.getCodigo()));
+			for (String s : codigos.split(",")) {
+				recibos.addAll(new Liquidacion_Querys().getRecibosCajaxAgencia(fechaIni, fechaFin, s));
+				System.out.println(s);
 			}
 		} catch (Exception e) {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
-		return recibos;
+		//filtro por acreditado o no, segun el valor de acr
+		if (acr.isEmpty()) {
+			return recibos;
+		} else if (acr.equalsIgnoreCase("S")) {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("SI"))
+					.collect(Collectors.toList());
+		} else {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("NO"))
+					.collect(Collectors.toList());
+		}
+	}
+
+	@GetMapping("/RecibosCaja")
+	public List<ReciboCaja> getRecibosCaja(@RequestParam String fechaIni, @RequestParam String fechaFin,
+			@RequestParam String acr) {
+		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
+		try {
+			recibos.addAll(new Liquidacion_Querys().getRecibosCaja(fechaIni, fechaFin));
+		} catch (Exception e) {
+			logger.info("Algo malio sal... err: " + e);
+			e.printStackTrace();
+		}
+		//filtro por acreditado o no, segun el valor de acr
+		if (acr.isEmpty()) {
+			return recibos;
+		} else if (acr.equalsIgnoreCase("S")) {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("SI"))
+					.collect(Collectors.toList());
+		} else {
+			return recibos.stream().filter(recibo -> recibo.getAcreditado().equalsIgnoreCase("NO"))
+					.collect(Collectors.toList());
+		}
+
 	}
 
 	@GetMapping("/ReciboCOD")
 	public ReciboCaja getReciboCOD(@RequestParam String recibo) {
 		String[] tmp = recibo.split("-");
-		System.out.println("recibo: "+recibo+" "+tmp.length);
+		System.out.println("recibo: " + recibo + " " + tmp.length);
 		if (tmp.length > 1) {
 			String serie = tmp[0];
 			String numero = tmp[1];
-			System.out.println(serie+"-"+numero);
+			System.out.println(serie + "-" + numero);
 			if (!serie.isEmpty() && !numero.isEmpty()) {
 				try {
 					return new Liquidacion_Querys().getRecibo(serie.trim(), numero.trim());
@@ -149,8 +193,6 @@ public class Acr_RestCtrl {
 		}
 		return null;
 	}
-	
-
 
 	@GetMapping("/ReciboCODxGuia")
 	public ReciboCaja getReciboCODxGuia(@RequestParam String noguia) {
