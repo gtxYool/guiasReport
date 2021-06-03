@@ -112,18 +112,37 @@ public class Liquidacion_Querys extends Conexion {
 			cs.setString(3, codigo);
 			rs = cs.executeQuery();
 			while (rs.next()) {
-				ReciboCaja rbc = new ReciboCaja();
-				rbc.setAgencia(rs.getString("AGENCIA"));
-				rbc.setCliente(rs.getString("CLIENTE"));
-				rbc.setCodigo(rs.getString("CODIGO"));
-				rbc.setFecha(rs.getString("FECHA"));
-				rbc.setFecha_liquidacion(rs.getString("FECHA_LIQUIDACION"));
-				rbc.setLiquidado(rs.getString("LIQUIDADO"));
-				rbc.setLiquidador(rs.getString("LIQUIDADOR"));
-				rbc.setRecibo(rs.getString("RECIBO"));
-				rbc.setTotal(rs.getString("TOTAL"));
-
-				recibos.add(rbc);
+				String recibo = notNull(rs.getString("RECIBO"));
+				String monto = notNull(rs.getString("MONTODEPOSITADO"));
+				ReciboCaja rbc = recibos.stream().filter(r -> r.getRecibo().equalsIgnoreCase(recibo)).findFirst()
+						.orElse(null);
+				if (rbc == null) {
+					rbc = new ReciboCaja();
+					rbc.setAgencia(rs.getString("AGENCIA"));
+					rbc.setCliente(rs.getString("CLIENTE"));
+					rbc.setCodigo(rs.getString("CODIGO"));
+					rbc.setFecha(rs.getString("FECHA"));
+					rbc.setFecha_liquidacion(rs.getString("FECHA_LIQUIDACION"));
+					rbc.setLiquidado(rs.getString("LIQUIDADO"));
+					rbc.setLiquidador(rs.getString("LIQUIDADOR"));
+					rbc.setRecibo(recibo);
+					rbc.setTotal(rs.getString("TOTAL"));
+					rbc.setNoguia(rs.getString("NOGUIA"));
+					rbc.setPtoDes(rs.getString("PTODES"));
+					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
+					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.setAcreditado(rs.getString("ACREDITADO"));
+					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
+					rbc.setValorAcreditar(rs.getString("VALORACREDITAR"));
+					recibos.add(rbc);
+				} else {
+					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
+				}
 			}
 		} catch (Exception e) {
 			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
@@ -132,6 +151,112 @@ public class Liquidacion_Querys extends Conexion {
 		}
 		return recibos;
 
+	}
+
+	public List<ReciboCaja> getRecibosCaja(String fechaIni, String fechaFin) {
+		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
+		try {
+			con = getConnection();
+			String query = "{call SACOD_getRecibosCaja(?,?)}";
+			cs = con.prepareCall(query);
+			cs.setString(1, fechaIni);
+			cs.setString(2, fechaFin);
+			rs = cs.executeQuery();
+			while (rs.next()) {
+				String recibo = notNull(rs.getString("RECIBO"));
+				String monto = notNull(rs.getString("MONTODEPOSITADO"));
+				ReciboCaja rbc = recibos.stream().filter(r -> r.getRecibo().equalsIgnoreCase(recibo)).findFirst()
+						.orElse(null);
+				if (rbc == null) {
+					rbc = new ReciboCaja();
+					rbc.setAgencia(rs.getString("AGENCIA"));
+					rbc.setCliente(rs.getString("CLIENTE"));
+					rbc.setCodigo(rs.getString("CODIGO"));
+					rbc.setFecha(rs.getString("FECHA"));
+					rbc.setFecha_liquidacion(rs.getString("FECHA_LIQUIDACION"));
+					rbc.setLiquidado(rs.getString("LIQUIDADO"));
+					rbc.setLiquidador(rs.getString("LIQUIDADOR"));
+					rbc.setRecibo(recibo);
+					rbc.setTotal(rs.getString("TOTAL"));
+					rbc.setNoguia(rs.getString("NOGUIA"));
+					rbc.setPtoDes(rs.getString("PTODES"));
+					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
+
+					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.setAcreditado(rs.getString("ACREDITADO"));
+					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
+					rbc.setValorAcreditar(rs.getString("VALORACREDITAR"));
+					recibos.add(rbc);
+				} else {
+					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
+				}
+
+			}
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal con el metodo: \"List<ReciboCaja> getRecibosCaja\" err:" + e);
+			e.printStackTrace();
+		} finally {
+			CloseAll(con, cs, rs);
+		}
+		return recibos;
+
+	}
+
+	public List<ReciboCaja> getRecibosCajaxAgencia(String fechaIni, String fechaFin, String codigo) {
+		List<ReciboCaja> recibos = new LinkedList<ReciboCaja>();
+		try {
+			con = getConnection();
+			String query = "{call SACOD_getRecibosxAgencia(?,?,?)}";
+			cs = con.prepareCall(query);
+			cs.setString(1, fechaIni);
+			cs.setString(2, fechaFin);
+			cs.setString(3, codigo);
+			rs = cs.executeQuery();
+			while (rs.next()) {
+				String recibo = notNull(rs.getString("RECIBO"));
+				String monto = notNull(rs.getString("MONTODEPOSITADO"));
+				ReciboCaja rbc = recibos.stream().filter(r -> r.getRecibo().equalsIgnoreCase(recibo)).findFirst()
+						.orElse(null);
+				if (rbc == null) {
+					rbc = new ReciboCaja();
+					rbc.setAgencia(rs.getString("AGENCIA"));
+					rbc.setCliente(rs.getString("CLIENTE"));
+					rbc.setCodigo(rs.getString("CODIGO"));
+					rbc.setFecha(rs.getString("FECHA"));
+					rbc.setFecha_liquidacion(rs.getString("FECHA_LIQUIDACION"));
+					rbc.setLiquidado(rs.getString("LIQUIDADO"));
+					rbc.setLiquidador(rs.getString("LIQUIDADOR"));
+					rbc.setRecibo(recibo);
+					rbc.setTotal(rs.getString("TOTAL"));
+					rbc.setNoguia(rs.getString("NOGUIA"));
+					rbc.setPtoDes(rs.getString("PTODES"));
+					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
+
+					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.setAcreditado(rs.getString("ACREDITADO"));
+					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
+					rbc.setValorAcreditar(rs.getString("VALORACREDITAR"));
+					recibos.add(rbc);
+				} else {
+					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
+							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
+					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
+				}
+			}
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
+		} finally {
+			CloseAll(con, cs, rs);
+		}
+		return recibos;
 	}
 
 	public List<PuntoLiquidacion> getPuntosLiquidacion() {
@@ -156,6 +281,11 @@ public class Liquidacion_Querys extends Conexion {
 		return puntos;
 	}
 
+	/**
+	 * 
+	 * @param noguia
+	 * @return
+	 */
 	public String getNumRecibo(String noguia) {
 		String recibo = "";
 		try {
@@ -164,8 +294,8 @@ public class Liquidacion_Querys extends Conexion {
 			ps = con.prepareStatement(query);
 			ps.setString(1, noguia);
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				recibo =rs.getString("RECIBO");
+			if (rs.next()) {
+				recibo = rs.getString("RECIBO");
 			}
 		} catch (Exception e) {
 			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e);
@@ -175,6 +305,12 @@ public class Liquidacion_Querys extends Conexion {
 		return recibo;
 	}
 
+	/**
+	 * 
+	 * @param serie
+	 * @param numero
+	 * @return
+	 */
 	public ReciboCaja getRecibo(String serie, String numero) {
 
 		try {
@@ -204,5 +340,20 @@ public class Liquidacion_Querys extends Conexion {
 		}
 		return null;
 
+	}
+
+	/**
+	 * Metodo para
+	 * 
+	 * @param banco
+	 * @return
+	 */
+	private String mapBanco(String banco) {
+		banco = notNull(banco).toUpperCase();
+		return banco.isEmpty() ? "" : banco.contains("B") ? "BANRURAL" : "GYT CONTINENTAL";
+	}
+
+	private String notNull(String var) {
+		return var != null ? var.trim() : "";
 	}
 }

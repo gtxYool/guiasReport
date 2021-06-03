@@ -346,6 +346,7 @@ public class Guias_Querys extends Conexion {
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
 				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
+				guia.setRUTA(rs.getString("RUTA"));
 				guias.add(guia);
 			}
 			return guias;
@@ -413,6 +414,7 @@ public class Guias_Querys extends Conexion {
 				guia.setUBICACIONLIQUI(rs.getString("UBICACIONLIQUI"));
 				guia.setUBICACIONUSULI(rs.getString("UBICACIONUSULI"));
 				guia.setTIPO_COBRO(rs.getString("TIPO_COBRO"));
+				guia.setRUTA(rs.getString("RUTA"));
 				guias.add(guia);
 			}
 			return guias;
