@@ -2,7 +2,8 @@ package com.guatex.sacod_reporteguias.entities;
 
 public class ReciboCaja {
 	private String recibo, fecha, codigo, cliente, total, liquidado, liquidador, fecha_liquidacion, agencia;
-	private String entrega, nRecibe, direccion, telefono,piezas,noguia;
+	private String entrega, nRecibe, direccion, telefono, ptoDes,piezas, noguia, bancoBoletaMonto, boletaTransporte;
+	private String boletaDepElec,acreditado,valorAcreditar;
 
 	private String notNull(String var) {
 		return var != null ? var.trim() : "";
@@ -217,5 +218,126 @@ public class ReciboCaja {
 	 */
 	public void setNoguia(String noguia) {
 		this.noguia = notNull(noguia);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getBancoBoletaMonto() {
+		return notNull(bancoBoletaMonto);
+	}
+
+	/**
+	 * 
+	 * @param bancoBoletaMonto
+	 */
+	public void setBancoBoletaMonto(String bancoBoletaMonto) {
+		this.bancoBoletaMonto = notNull(bancoBoletaMonto);
+	}
+
+	/**
+	 * 
+	 * @param bancoBoletaMonto
+	 */
+	public void concatBancoBoletaMonto(String bancoBoletaMonto) {
+		bancoBoletaMonto = notNull(bancoBoletaMonto);
+		if (!this.getBancoBoletaMonto().contains(bancoBoletaMonto)) {
+			this.bancoBoletaMonto += " / " + bancoBoletaMonto;
+		}
+	}
+
+	/**
+	 * @return the boletaTransporte
+	 */
+	public String getBoletaTransporte() {
+		return notNull(boletaTransporte);
+	}
+
+	/**
+	 * @param boletaTransporte the boletaTransporte to set
+	 */
+	public void setBoletaTransporte(String boletaTransporte) {
+		this.boletaTransporte = notNull(boletaTransporte);
+	}
+
+	/**
+	 * @param boletaTransporte the boletaTransporte to set
+	 */
+	public void concatBoletaTransporte(String boletaTransporte) {
+		boletaTransporte = notNull(boletaTransporte);
+		if (!this.getBoletaTransporte().contains(boletaTransporte)) {
+			this.boletaTransporte += ", " + boletaTransporte;
+		}
+	}
+
+	/**
+	 * @return the acreditado
+	 */
+	public String getAcreditado() {
+		return mapAcreditado(acreditado);
+	}
+
+	/**
+	 * @param acreditado the acreditado to set
+	 */
+	public void setAcreditado(String Acreditado) {
+		this.acreditado = mapAcreditado(Acreditado);
+	}
+
+	private String mapAcreditado(String var) {
+		return notNull(var).contains("S") ? "SI" : "NO";
+	}
+
+	/**
+	 * @return the boletaDepElec
+	 */
+	public String getBoletaDepElec() {
+		return notNull(boletaDepElec);
+	}
+
+	/**
+	 * @param boletaDepElec the boletaDepElec to set
+	 */
+	public void setBoletaDepElec(String boletaDepElec) {
+		this.boletaDepElec = notNull(boletaDepElec);
+	}
+	
+	/**
+	 * @param boletaDepElec the boletaDepElec to set
+	 */
+	public void concatBoletaDepElec(String boletaDepElec) {
+		boletaDepElec = notNull(boletaDepElec);
+		if (!this.getBoletaDepElec().contains(boletaDepElec)) {
+			this.boletaDepElec += ", " + boletaDepElec;
+		}
+	}
+
+	/**
+	 * @return the valorAcreditar
+	 */
+	public String getValorAcreditar() {
+		return notNull(valorAcreditar);
+	}
+
+	/**
+	 * @param valorAcreditar the valorAcreditar to set
+	 */
+	public void setValorAcreditar(String valorAcreditar) {
+		this.valorAcreditar = notNull(valorAcreditar);
+	}
+
+	/**
+	 * @return the ptoDes
+	 */
+	public String getPtoDes() {
+		return notNull(ptoDes);
+	}
+
+	/**
+	 * @param ptoDes the ptoDes to set
+	 */
+	public void setPtoDes(String ptoDes) {
+		this.ptoDes = notNull(ptoDes);
 	}
 }
