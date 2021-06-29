@@ -4,6 +4,7 @@ package com.guatex.sacod_reporteguias.dao;
 import java.sql.CallableStatement;
 import java.util.LinkedList;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -23,6 +24,7 @@ public class Guias_Querys extends Conexion {
 	private Connection con;
 	private ResultSet rs;
 	private CallableStatement cs;
+	private PreparedStatement ps;
 
 	// REPORTE GUIASCOD GENERAL
 	public List<Guia> getGuiasCOD_General(String fechaIni, String fechaFin) throws SQLException {
@@ -54,7 +56,7 @@ public class Guias_Querys extends Conexion {
 				guia.setNOMDES(rs.getString("NOMDES"));
 				guia.setDIRDES1(rs.getString("DIRDES1"));
 				guia.setP_RECIBIO(rs.getString("P_RECIBIO"));
-				// System.out.println("--------------------------> "+rs.getString("P_FECHA"));
+
 				guia.setPFECHA(rs.getString("P_FECHA"));
 				guia.setTELDES(rs.getString("TELDES"));
 				guia.setPTOORI(rs.getString("PTOORI"));
@@ -88,6 +90,8 @@ public class Guias_Querys extends Conexion {
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			e.printStackTrace();
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -156,6 +160,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -221,6 +227,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -288,6 +296,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -354,6 +364,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -422,6 +434,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -481,6 +495,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal, err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -541,6 +557,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal, err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -598,6 +616,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal, err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -657,6 +677,8 @@ public class Guias_Querys extends Conexion {
 			e.printStackTrace();
 			logger.info("\nAlgo malió sal, err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -717,6 +739,8 @@ public class Guias_Querys extends Conexion {
 			logger.info(
 					"\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_Liquidadas()\" err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -778,6 +802,8 @@ public class Guias_Querys extends Conexion {
 			logger.info("\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_LiquidadasXCliente()\" err:"
 					+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -836,6 +862,8 @@ public class Guias_Querys extends Conexion {
 			logger.info(
 					"\nAlgo malió sal con el metodo: \"List<Guia> getGuiasCOD_NoLiquidadas()\" err:" + e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -896,6 +924,8 @@ public class Guias_Querys extends Conexion {
 			logger.info("\nAlgo malió sal con el metodo: \"List<Guia>  getGuiasCOD_NoLiquidadasXCliente()\" err:"
 					+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -930,6 +960,8 @@ public class Guias_Querys extends Conexion {
 					"\nAlgo malió sal con el metodo: \"List<ClienteXAcreditacion>  getClientesPendientesXAcrediatar()\" err:"
 							+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -970,6 +1002,8 @@ public class Guias_Querys extends Conexion {
 					"\nAlgo malió sal con el metodo: \"List<ClienteXAcreditacion>  getClientesPendientesXAcrediatar()\" err:"
 							+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -1009,6 +1043,8 @@ public class Guias_Querys extends Conexion {
 			logger.info("Algo malió sal con el metodo: \"List<ResumenAcreditacion> getResumenAcreditacion()\" err:"
 					+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -1048,6 +1084,8 @@ public class Guias_Querys extends Conexion {
 			logger.info("Algo malió sal con el metodo: \"List<ResumenAcreditacion> getResumenAcreditacion()\" err:"
 					+ e.getMessage());
 			return null;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
 	}
 
@@ -1081,7 +1119,43 @@ public class Guias_Querys extends Conexion {
 			logger.info("Algo malió sal con el metodo: \"List<ResumenAcreditacion> getResumenAcreditacion()\" err:"
 					+ e.getMessage());
 			return lista;
+		} finally {
+			CloseAll(con, cs, rs);
 		}
+	}
+
+	public Guia getDataGuiaCOD(String noguia) {
+		Guia guia = new Guia();
+		try {
+			con = getConnection();
+			String query = " Select convert(varchar(10),FECHA_GUIA,103) as FECHA_GUIA,PTOORI,PTODES,CODCOB,VALORCOD,VALORSERVICIO,VALORACREDITAR,"
+					+ "DESTINATARIO,RECIBOCOD,convert(varchar(10),FECHA_ENTREGA,103)as  FECHA_ENTREGA "
+					+ " from GUIASCOD where noguia=? ";
+			ps = con.prepareStatement(query);
+			ps.setString(1, noguia);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				guia.setFECHA(rs.getString("FECHA_GUIA"));
+				guia.setPTOORI(rs.getString("PTOORI"));
+				guia.setPTODES(rs.getString("PTODES"));
+				guia.setCODCOB(rs.getString("CODCOB"));
+				guia.setCOD_VALORACOBRAR(rs.getString("VALORCOD"));
+				guia.setVALORSERVICIO(rs.getString("VALORSERVICIO"));
+				guia.setVALORACREDITAR(rs.getString("VALORACREDITAR"));
+				guia.setNOMDES(rs.getString("DESTINATARIO"));
+				guia.setCOD_RECIBO(rs.getString("RECIBOCOD"));
+				guia.setPFECHA(rs.getString("FECHA_ENTREGA"));
+				guia.setNOGUIA(noguia);
+			}
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal,err:" + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			CloseAll(con, cs, rs);
+		}
+		return guia;
 	}
 
 	// ---------------------------- UTILS
@@ -1103,4 +1177,5 @@ public class Guias_Querys extends Conexion {
 		}
 		return yyyyMMdd;
 	}
+
 }

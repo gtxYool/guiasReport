@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -114,7 +115,7 @@ public class Acr_RestCtrl {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
-		//filtro por acreditado o no, segun el valor de acr
+		// filtro por acreditado o no, segun el valor de acr
 		if (acr.isEmpty()) {
 			return recibos;
 		} else if (acr.equalsIgnoreCase("S")) {
@@ -139,7 +140,7 @@ public class Acr_RestCtrl {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
-		//filtro por acreditado o no, segun el valor de acr
+		// filtro por acreditado o no, segun el valor de acr
 		if (acr.isEmpty()) {
 			return recibos;
 		} else if (acr.equalsIgnoreCase("S")) {
@@ -161,7 +162,7 @@ public class Acr_RestCtrl {
 			logger.info("Algo malio sal... err: " + e);
 			e.printStackTrace();
 		}
-		//filtro por acreditado o no, segun el valor de acr
+		// filtro por acreditado o no, segun el valor de acr
 		if (acr.isEmpty()) {
 			return recibos;
 		} else if (acr.equalsIgnoreCase("S")) {
@@ -214,5 +215,29 @@ public class Acr_RestCtrl {
 	@GetMapping("/PuntosLiquidacion")
 	public List<PuntoLiquidacion> getPuntosLiquidacion() {
 		return new Liquidacion_Querys().getPuntosLiquidacion();
+	}
+
+	/**
+	 * 
+	 * @param noguia
+	 * @param descripcion
+	 * @return
+	 */
+	@PutMapping("/InsertAjusteDebito")
+	public boolean InsertAjusteDebito(@RequestParam String noguia, @RequestParam String descripcion) {
+		return new D_AjusteCOD_ACR().InsertAjusteAcr_Debito(noguia, descripcion);
+	}
+
+	/**
+	 * 
+	 * @param codcob
+	 * @param monto
+	 * @param descripcion
+	 * @return
+	 */
+	@PutMapping("/InsertAjusteCredito")
+	public boolean InsertAjusteCredito(@RequestParam String codcob, @RequestParam String monto,
+			@RequestParam String descripcion) {
+		return new D_AjusteCOD_ACR().InsertAjusteAcr_Credito(codcob, monto, descripcion);
 	}
 }

@@ -239,5 +239,9 @@ public class Guias_RestCtrl {
 		}
 		return guias;
 	}
+	@GetMapping("/getDataGuiaCOD")
+	public Guia getDataGuiaCOD(@RequestParam String noguia) {
+		return new Guias_Querys().getDataGuiaCOD(noguia);
+	}
 
 }
