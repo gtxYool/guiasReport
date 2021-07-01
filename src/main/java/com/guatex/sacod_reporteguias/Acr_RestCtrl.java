@@ -240,4 +240,23 @@ public class Acr_RestCtrl {
 			@RequestParam String descripcion) {
 		return new D_AjusteCOD_ACR().InsertAjusteAcr_Credito(codcob, monto, descripcion);
 	}
+
+	/**
+	 * 
+	 * @param codcob
+	 * @param monto
+	 * @param descripcion
+	 * @return
+	 */
+	@GetMapping("/getAjustesCOD")
+	public List<E_AjusteCOD_ACR> getAjustesCOD(@RequestParam String autorizacion, @RequestParam String codcob,
+			@RequestParam String noguia, @RequestParam int tipo) {
+		D_AjusteCOD_ACR AjusteCOD = new D_AjusteCOD_ACR();
+		return tipo == 0 ? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia)
+				: tipo == 1
+						? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
+								.filter(ajus -> ajus.getTipo().equalsIgnoreCase("D")).collect(Collectors.toList())
+						: AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
+								.filter(ajus -> ajus.getTipo().equalsIgnoreCase("C")).collect(Collectors.toList());
+	}
 }

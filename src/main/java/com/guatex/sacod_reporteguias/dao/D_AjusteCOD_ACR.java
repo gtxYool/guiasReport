@@ -4,10 +4,13 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.guatex.sacod_reporteguias.entities.E_AjusteCOD_ACR;
 import com.guatex.sacod_reporteguias.entities.Guia;
 
 public class D_AjusteCOD_ACR extends Conexion {
@@ -21,9 +24,9 @@ public class D_AjusteCOD_ACR extends Conexion {
 		try {
 			con = getConnection();
 			Guia guia = new Guias_Querys().getDataGuiaCOD(noguia);
-			
+
 			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO) VALUES (?,?,?,?,?,?)";
-			
+
 			ps = con.prepareStatement(query);
 			ps.setString(1, noguia);
 			ps.setString(2, "D");
@@ -33,11 +36,11 @@ public class D_AjusteCOD_ACR extends Conexion {
 			ps.setString(6, guia.getVALORACREDITAR());
 
 			boolean insertAjuste1 = ps.executeUpdate() > 0;
-			
+
 			ps.setString(6, guia.getVALORSERVICIO());
-			
+
 			boolean insertAjuste2 = ps.executeUpdate() > 0;
-			
+
 			return insertAjuste1 && insertAjuste2;
 
 		} catch (Exception e) {
@@ -51,9 +54,9 @@ public class D_AjusteCOD_ACR extends Conexion {
 
 	public boolean InsertAjusteAcr_Credito(String codcob, String monto, String descripcion) {
 		try {
-			con = getConnection();			
+			con = getConnection();
 			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO) VALUES (?,?,?,?,?,?)";
-			
+
 			ps = con.prepareStatement(query);
 			ps.setString(1, "");
 			ps.setString(2, "C");
@@ -72,5 +75,55 @@ public class D_AjusteCOD_ACR extends Conexion {
 			CloseAll(con, ps, rs);
 		}
 		return false;
+	}
+
+	public List<E_AjusteCOD_ACR> getAjustesCOD(String aut, String codcob, String noguia) {
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		try {
+			con = getConnection();
+			String query = "SELECT NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO,AUTORIZACION FROM AJUSTESCOD_ACR WHERE ";
+			String w1 = " AUTORIZACION = ? ";
+			String w2 = " CODCOB = ? ";
+			String w3 = " NOGUIA = ? ";
+			String and = " AND ";
+			if (!aut.isEmpty() && !codcob.isEmpty()) {
+				query += w1 + and + w2;
+				ps = con.prepareStatement(query);
+				ps.setString(1, aut);
+				ps.setString(2, codcob);
+			} else if (!codcob.isEmpty()) {
+				query += w2;
+				ps = con.prepareStatement(query);
+				ps.setString(1, codcob);
+			} else if (!aut.isEmpty()) {
+				query += w1;
+				ps = con.prepareStatement(query);
+				ps.setString(1, aut);
+			} else {
+				query += w3;
+				ps = con.prepareStatement(query);
+				ps.setString(1, noguia);
+			}
+			System.out.println(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				E_AjusteCOD_ACR ajuste = new E_AjusteCOD_ACR();
+				ajuste.setAplicado(rs.getString("APLICADO"));
+				ajuste.setAutorizacion(rs.getString("AUTORIZACION"));
+				ajuste.setCodCob(rs.getString("CODCOB"));
+				ajuste.setDescripcion(rs.getString("DESCRIPCION"));
+				ajuste.setMonto(rs.getString("MONTO"));
+				ajuste.setNoguia(rs.getString("NOGUIA"));
+				ajuste.setTipo(rs.getString("TIPO"));
+				ajustes.add(ajuste);
+			}
+
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal,err:" + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			CloseAll(con, ps, rs);
+		}
+		return ajustes;
 	}
 }

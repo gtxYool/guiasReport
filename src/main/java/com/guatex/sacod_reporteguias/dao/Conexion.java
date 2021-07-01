@@ -20,7 +20,7 @@ public class Conexion {
 	}
 
 	public Connection getConnection() {
-		final String url = "jdbc:sqlserver://serverdb;DatabaseName=OperacionesPrueba";
+		final String url = "jdbc:sqlserver://serverdbDE;DatabaseName=OperacionesPrueba";
 		final String user = "operaciones";
 		final String pass = "gtxgtx01";
 		con = null;
