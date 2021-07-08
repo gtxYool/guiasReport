@@ -1,5 +1,6 @@
 package com.guatex.sacod_reporteguias;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -78,6 +79,7 @@ public class Acr_RestCtrl {
 			for (String s : autorizacion.split(",")) {
 				pendientes.addAll(new Guias_Querys().getResumenAcreditacionAU(s.trim()));
 			}
+
 		} catch (Exception e) {
 			logger.info("Algo malio sal... err: " + e.getMessage());
 			e.printStackTrace();
@@ -259,4 +261,12 @@ public class Acr_RestCtrl {
 						: AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
 								.filter(ajus -> ajus.getTipo().equalsIgnoreCase("C")).collect(Collectors.toList());
 	}
+
+	@GetMapping("/getAjustesCODAp")
+	public List<E_AjusteCOD_ACR> getAjustesCODAp(@RequestParam String autorizacion) {
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		ajustes.addAll(new D_AjusteCOD_ACR().getAjustesCOD(autorizacion));
+		return ajustes;
+	}
+
 }

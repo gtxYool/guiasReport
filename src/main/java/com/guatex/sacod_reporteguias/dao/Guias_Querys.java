@@ -1076,6 +1076,28 @@ public class Guias_Querys extends Conexion {
 				resumenAcr.setBanco(rs.getString("BANNOMBRE"));
 				resumenAcr.setNoCuenta(rs.getString("NOCUENTA"));
 				resumenAcr.setTipoCuenta(rs.getString("TIPOCUENTA"));
+
+				new D_AjusteCOD_ACR().getAjustesCOD(autorizacion, resumenAcr.getCodigo(), con).stream().forEach(ajs -> {
+
+					String tipo = ajs.getTipo();
+					Double monto = 0.0;
+					Double total = 0.0;
+					try {
+						monto = Double.parseDouble(ajs.getMonto());
+						total = Double.parseDouble(resumenAcr.getTotalAcr());
+					} catch (Exception ex) {
+
+					} finally {
+
+						if (tipo.contains("D")) {
+							total -= monto;
+						} else {
+							total += monto;
+						}
+						resumenAcr.setTotalAcr(total + "");
+					}
+					resumenAcr.setAjustado("S");
+				});
 				pendientes.add(resumenAcr);
 			}
 			return pendientes;
@@ -1128,9 +1150,12 @@ public class Guias_Querys extends Conexion {
 		Guia guia = new Guia();
 		try {
 			con = getConnection();
-			String query = " Select convert(varchar(10),FECHA_GUIA,103) as FECHA_GUIA,PTOORI,PTODES,CODCOB,VALORCOD,VALORSERVICIO,VALORACREDITAR,"
-					+ "DESTINATARIO,RECIBOCOD,convert(varchar(10),FECHA_ENTREGA,103)as  FECHA_ENTREGA "
-					+ " from GUIASCOD where noguia=? ";
+			String query = " Select convert(varchar(10),FECHA_GUIA,103) as FECHA_GUIA,PTOORI,PTODES,"
+					+ "CODCOB,VALORCOD,VALORSERVICIO,VALORACREDITAR,DESTINATARIO,RECIBOCOD,"
+					+ "convert(varchar(10),FECHA_ENTREGA,103)as FECHA_ENTREGA "
+					+ " from GUIASCOD "
+					+ "where noguia=? "
+					+ "and ISNULL(reportefin,'N')='N' ";
 			ps = con.prepareStatement(query);
 			ps.setString(1, noguia);
 

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guatex.sacod_reporteguias.dao.*;
 import com.guatex.sacod_reporteguias.entities.*;
 
-
 @RestController
 @RequestMapping("/GuiaCOD")
 public class Guias_RestCtrl {
@@ -239,9 +238,11 @@ public class Guias_RestCtrl {
 		}
 		return guias;
 	}
+
 	@GetMapping("/getDataGuiaCOD")
 	public Guia getDataGuiaCOD(@RequestParam String noguia) {
-		return new Guias_Querys().getDataGuiaCOD(noguia);
+		Guia guia = new Guias_Querys().getDataGuiaCOD(noguia);
+		return new D_AjusteCOD_ACR().getAjustesCOD("", "", guia.getNOGUIA()).isEmpty() ? guia : null;
 	}
 
 }

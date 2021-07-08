@@ -126,4 +126,70 @@ public class D_AjusteCOD_ACR extends Conexion {
 		}
 		return ajustes;
 	}
+
+	public List<E_AjusteCOD_ACR> getAjustesCOD(String aut, String codcob, Connection con) {
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		try {
+			String query = "SELECT NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO,AUTORIZACION " + "FROM AJUSTESCOD_ACR "
+					+ "WHERE APLICADO=? " + "AND AUTORIZACION = ? " + "AND CODCOB = ? ";
+
+			ps = con.prepareStatement(query);
+			ps.setString(1, "S");
+			ps.setString(2, aut);
+			ps.setString(3, codcob);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				E_AjusteCOD_ACR ajuste = new E_AjusteCOD_ACR();
+				ajuste.setAplicado(rs.getString("APLICADO"));
+				ajuste.setAutorizacion(rs.getString("AUTORIZACION"));
+				ajuste.setCodCob(rs.getString("CODCOB"));
+				ajuste.setDescripcion(rs.getString("DESCRIPCION"));
+				ajuste.setMonto(rs.getString("MONTO"));
+				ajuste.setNoguia(rs.getString("NOGUIA"));
+				ajuste.setTipo(rs.getString("TIPO"));
+				ajustes.add(ajuste);
+			}
+
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal,err:" + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			CloseAll(null, ps, rs);
+		}
+		return ajustes;
+	}
+
+	public List<E_AjusteCOD_ACR> getAjustesCOD(String aut) {
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		con = getConnection();
+		try {
+			String query = "SELECT NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO,AUTORIZACION " + "FROM AJUSTESCOD_ACR "
+					+ "WHERE APLICADO=? AND AUTORIZACION = ? ";
+
+			ps = con.prepareStatement(query);
+			ps.setString(1, "S");
+			ps.setString(2, aut);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				E_AjusteCOD_ACR ajuste = new E_AjusteCOD_ACR();
+				ajuste.setAplicado(rs.getString("APLICADO"));
+				ajuste.setAutorizacion(rs.getString("AUTORIZACION"));
+				ajuste.setCodCob(rs.getString("CODCOB"));
+				ajuste.setDescripcion(rs.getString("DESCRIPCION"));
+				ajuste.setMonto(rs.getString("MONTO"));
+				ajuste.setNoguia(rs.getString("NOGUIA"));
+				ajuste.setTipo(rs.getString("TIPO"));
+				ajustes.add(ajuste);
+			}
+
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal,err:" + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			CloseAll(null, ps, rs);
+		}
+		return ajustes;
+	}
 }

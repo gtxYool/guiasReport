@@ -1,8 +1,27 @@
 package com.guatex.sacod_reporteguias.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResumenAcreditacion {
 	String fechaIni, fechaFin, codigo, nombre, acreditado, cantidadGuias, razonSocial, totalCOD, totalServ, totalAcr,
-			PorcentajeCOD, usuarioPreAu, usuarioAu, autorizacion, noCuenta, Banco, tipoCuenta;
+			PorcentajeCOD, usuarioPreAu, usuarioAu, autorizacion, noCuenta, Banco, tipoCuenta,ajustado;
+
+	
+
+	/**
+	 * @return the ajustes
+	 */
+	public String getAjustado() {
+		return notNull(this.ajustado); 
+	}
+
+	/**
+	 * @param ajustes the ajustes to set
+	 */
+	public void setAjustado(String ajustado) {
+		this.ajustado = notNull(ajustado);
+	}
 
 	/**
 	 * @return the fechaIni
