@@ -24,9 +24,9 @@ import com.guatex.sacod_reporteguias.entities.*;
 @RequestMapping("/AcrCOD")
 public class Acr_RestCtrl {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		SpringApplication.run(Acr_RestCtrl.class, args);
-	}
+	}*/
 
 	public static final Logger logger = LogManager.getLogger(Acr_RestCtrl.class);
 
@@ -226,8 +226,9 @@ public class Acr_RestCtrl {
 	 * @return
 	 */
 	@PutMapping("/InsertAjusteDebito")
-	public boolean InsertAjusteDebito(@RequestParam String noguia, @RequestParam String descripcion) {
-		return new D_AjusteCOD_ACR().InsertAjusteAcr_Debito(noguia, descripcion);
+	public boolean InsertAjusteDebito(@RequestParam String noguia, @RequestParam String descripcion,
+			@RequestParam String usuario) {
+		return new D_AjusteCOD_ACR().InsertAjusteAcr_Debito(noguia, descripcion, usuario);
 	}
 
 	/**
@@ -239,8 +240,8 @@ public class Acr_RestCtrl {
 	 */
 	@PutMapping("/InsertAjusteCredito")
 	public boolean InsertAjusteCredito(@RequestParam String codcob, @RequestParam String monto,
-			@RequestParam String descripcion) {
-		return new D_AjusteCOD_ACR().InsertAjusteAcr_Credito(codcob, monto, descripcion);
+			@RequestParam String descripcion, @RequestParam String usuario) {
+		return new D_AjusteCOD_ACR().InsertAjusteAcr_Credito(codcob, monto, descripcion, usuario);
 	}
 
 	/**
@@ -257,9 +258,9 @@ public class Acr_RestCtrl {
 		return tipo == 0 ? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia)
 				: tipo == 1
 						? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
-								.filter(ajus -> ajus.getTipo().equalsIgnoreCase("D")).collect(Collectors.toList())
+								.filter(ajus -> ajus.getTipo().contains("D")).collect(Collectors.toList())
 						: AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
-								.filter(ajus -> ajus.getTipo().equalsIgnoreCase("C")).collect(Collectors.toList());
+								.filter(ajus -> ajus.getTipo().contains("C")).collect(Collectors.toList());
 	}
 
 	@GetMapping("/getAjustesCODAp")
@@ -267,6 +268,20 @@ public class Acr_RestCtrl {
 		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
 		ajustes.addAll(new D_AjusteCOD_ACR().getAjustesCOD(autorizacion));
 		return ajustes;
+	}
+
+	@GetMapping("/getBoletasEscaneadas")
+	public List<E_BoletaxRecibo> getBoletasEscaneadas(@RequestParam String fechaIni, @RequestParam String fechaFin)
+			throws SQLException {
+		List<E_BoletaxRecibo> pendientes = null;
+		try {
+			pendientes = new Liquidacion_Querys().getBoletasEscaneadas(fechaIni, fechaFin);
+		} catch (Exception e) {
+			logger.info("Algo malio sal... err: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return pendientes;
+
 	}
 
 }

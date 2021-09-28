@@ -3,8 +3,10 @@
  */
 package com.guatex.sacod_reporteguias.entities;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import com.guatex.sacod_reporteguias.utilities.Gtools;
 
 public class Guia {
 
@@ -18,12 +20,9 @@ public class Guia {
 	public Guia() {
 	}
 
-	private String notNull(String var) {
-		return var != null ? var.trim() : "";
-	}
 
 	private String replace(String var) {
-		var = notNull(var);
+		var = Gtools.notNull(var);
 		switch (var) {
 		case "A":
 			return "ENTREGADA";
@@ -63,7 +62,7 @@ public class Guia {
 	}
 
 	private String castFecha(String fecha) {
-		fecha = notNull(fecha);
+		fecha = Gtools.notNull(fecha);
 		if (fecha.isEmpty()) {
 			return fecha;
 		} else {
@@ -88,231 +87,231 @@ public class Guia {
 	 * @return the cODCOB
 	 */
 	public String getCODCOB() {
-		return notNull(CODCOB);
+		return Gtools.notNull(CODCOB);
 	}
 
 	/**
 	 * @param cODCOB the cODCOB to set
 	 */
 	public void setCODCOB(String cODCOB) {
-		CODCOB = notNull(cODCOB);
+		CODCOB = Gtools.notNull(cODCOB);
 	}
 
 	/**
 	 * @return the fECHA
 	 */
 	public String getFECHA() {
-		return notNull(FECHA);
+		return Gtools.notNull(FECHA);
 	}
 
 	/**
 	 * @param fECHA the fECHA to set
 	 */
 	public void setFECHA(String fECHA) {
-		FECHA = notNull(fECHA);
+		FECHA = Gtools.notNull(fECHA);
 	}
 
 	/**
 	 * @return the nOGUIA
 	 */
 	public String getNOGUIA() {
-		return notNull(NOGUIA);
+		return Gtools.notNull(NOGUIA);
 	}
 
 	/**
 	 * @param nOGUIA the nOGUIA to set
 	 */
 	public void setNOGUIA(String nOGUIA) {
-		NOGUIA = notNull(nOGUIA);
+		NOGUIA = Gtools.notNull(nOGUIA);
 	}
 
 	/**
 	 * @return the cOD_VALORACOBRAR
 	 */
 	public String getCOD_VALORACOBRAR() {
-		return notNull(COD_VALORACOBRAR);
+		return Gtools.redondearString(COD_VALORACOBRAR);
 	}
 
 	/**
 	 * @param cOD_VALORACOBRAR the cOD_VALORACOBRAR to set
 	 */
 	public void setCOD_VALORACOBRAR(String cOD_VALORACOBRAR) {
-		COD_VALORACOBRAR = notNull(cOD_VALORACOBRAR);
+		COD_VALORACOBRAR = Gtools.redondearString(cOD_VALORACOBRAR);
 	}
 
 	/**
 	 * @return the cOD_RECIBO
 	 */
 	public String getCOD_RECIBO() {
-		return notNull(COD_RECIBO);
+		return Gtools.notNull(COD_RECIBO);
 	}
 
 	/**
 	 * @param cOD_RECIBO the cOD_RECIBO to set
 	 */
 	public void setCOD_RECIBO(String cOD_RECIBO) {
-		COD_RECIBO = notNull(cOD_RECIBO);
+		COD_RECIBO = Gtools.notNull(cOD_RECIBO);
 	}
 
 	/**
 	 * @return the nOMREM
 	 */
 	public String getNOMREM() {
-		return notNull(NOMREM);
+		return Gtools.notNull(NOMREM);
 	}
 
 	/**
 	 * @param nOMREM the nOMREM to set
 	 */
 	public void setNOMREM(String nOMREM) {
-		NOMREM = notNull(nOMREM);
+		NOMREM = Gtools.notNull(nOMREM);
 	}
 
 	/**
 	 * @return the dIRREM1
 	 */
 	public String getDIRREM1() {
-		return notNull(DIRREM1);
+		return Gtools.notNull(DIRREM1);
 	}
 
 	/**
 	 * @param dIRREM1 the dIRREM1 to set
 	 */
 	public void setDIRREM1(String dIRREM1) {
-		DIRREM1 = notNull(dIRREM1);
+		DIRREM1 = Gtools.notNull(dIRREM1);
 	}
 
 	/**
 	 * @return the tELREM
 	 */
 	public String getTELREM() {
-		return notNull(TELREM);
+		return Gtools.notNull(TELREM);
 	}
 
 	/**
 	 * @param tELREM the tELREM to set
 	 */
 	public void setTELREM(String tELREM) {
-		TELREM = notNull(tELREM);
+		TELREM = Gtools.notNull(tELREM);
 	}
 
 	/**
 	 * @return the nOMDES
 	 */
 	public String getNOMDES() {
-		return notNull(NOMDES);
+		return Gtools.notNull(NOMDES);
 	}
 
 	/**
 	 * @param nOMDES the nOMDES to set
 	 */
 	public void setNOMDES(String nOMDES) {
-		NOMDES = notNull(nOMDES);
+		NOMDES = Gtools.notNull(nOMDES);
 	}
 
 	/**
 	 * @return the dIRDES1
 	 */
 	public String getDIRDES1() {
-		return notNull(DIRDES1);
+		return Gtools.notNull(DIRDES1);
 	}
 
 	/**
 	 * @param dIRDES1 the dIRDES1 to set
 	 */
 	public void setDIRDES1(String dIRDES1) {
-		DIRDES1 = notNull(dIRDES1);
+		DIRDES1 = Gtools.notNull(dIRDES1);
 	}
 
 	/**
 	 * @return the p_RECIBIO
 	 */
 	public String getP_RECIBIO() {
-		return notNull(P_RECIBIO);
+		return Gtools.notNull(P_RECIBIO);
 	}
 
 	/**
 	 * @param p_RECIBIO the p_RECIBIO to set
 	 */
 	public void setP_RECIBIO(String p_RECIBIO) {
-		P_RECIBIO = notNull(p_RECIBIO);
+		P_RECIBIO = Gtools.notNull(p_RECIBIO);
 	}
 
 	/**
 	 * @return the hORAPOD
 	 */
 	public String getPFECHA() {
-		return notNull(PFECHA);
+		return Gtools.notNull(PFECHA);
 	}
 
 	/**
 	 * @param pFecha the hORAPOD to set
 	 */
 	public void setPFECHA(String pFecha) {
-		PFECHA = notNull(pFecha);
+		PFECHA = Gtools.notNull(pFecha);
 	}
 
 	/**
 	 * @return the tELDES
 	 */
 	public String getTELDES() {
-		return notNull(TELDES);
+		return Gtools.notNull(TELDES);
 	}
 
 	/**
 	 * @param tELDES the tELDES to set
 	 */
 	public void setTELDES(String tELDES) {
-		TELDES = notNull(tELDES);
+		TELDES = Gtools.notNull(tELDES);
 	}
 
 	/**
 	 * @return the pTOORI
 	 */
 	public String getPTOORI() {
-		return notNull(PTOORI);
+		return Gtools.notNull(PTOORI);
 	}
 
 	/**
 	 * @param pTOORI the pTOORI to set
 	 */
 	public void setPTOORI(String pTOORI) {
-		PTOORI = notNull(pTOORI);
+		PTOORI = Gtools.notNull(pTOORI);
 	}
 
 	/**
 	 * @return the pTODES
 	 */
 	public String getPTODES() {
-		return notNull(PTODES);
+		return Gtools.notNull(PTODES);
 	}
 
 	/**
 	 * @param pTODES the pTODES to set
 	 */
 	public void setPTODES(String pTODES) {
-		PTODES = notNull(pTODES);
+		PTODES = Gtools.notNull(pTODES);
 	}
 
 	/**
 	 * @return the lLAVECLIENTE
 	 */
 	public String getLLAVECLIENTE() {
-		return notNull(LLAVECLIENTE);
+		return Gtools.notNull(LLAVECLIENTE);
 	}
 
 	/**
 	 * @param lLAVECLIENTE the lLAVECLIENTE to set
 	 */
 	public void setLLAVECLIENTE(String lLAVECLIENTE) {
-		LLAVECLIENTE = notNull(lLAVECLIENTE);
+		LLAVECLIENTE = Gtools.notNull(lLAVECLIENTE);
 	}
 
 	/**
 	 * @return the p_ESTATUS
 	 */
 	public String getP_ESTATUS() {
-		return notNull(P_ESTATUS);
+		return Gtools.notNull(P_ESTATUS);
 	}
 
 	/**
@@ -327,7 +326,7 @@ public class Guia {
 	 * @return
 	 */
 	public String getIdReporte() {
-		return notNull(IdReporte);
+		return Gtools.notNull(IdReporte);
 	}
 
 	/**
@@ -335,70 +334,70 @@ public class Guia {
 	 * @param idReporte
 	 */
 	public void setIdReporte(String idReporte) {
-		IdReporte = notNull(idReporte);
+		IdReporte = Gtools.notNull(idReporte);
 	}
 
 	/**
 	 * @return the fACE_SERIE
 	 */
 	public String getFACE_SERIE() {
-		return notNull(FACE_SERIE);
+		return Gtools.notNull(FACE_SERIE);
 	}
 
 	/**
 	 * @return the fACE_PREIMPRESO
 	 */
 	public String getFACE_PREIMPRESO() {
-		return notNull(FACE_PREIMPRESO);
+		return Gtools.notNull(FACE_PREIMPRESO);
 	}
 
 	/**
 	 * @return the sERIEFACTURA
 	 */
 	public String getSERIECOD() {
-		return notNull(SERIECOD);
+		return Gtools.notNull(SERIECOD);
 	}
 
 	/**
 	 * @return the fACTURA
 	 */
 	public String getFACTURACOD() {
-		return notNull(FACTURACOD);
+		return Gtools.notNull(FACTURACOD);
 	}
 
 	/**
 	 * @return the lIQUIDADO
 	 */
 	public String getLIQUIDADO() {
-		return notNull(LIQUIDADO);
+		return Gtools.notNull(LIQUIDADO);
 	}
 
 	/**
 	 * @param fACE_SERIE the fACE_SERIE to set
 	 */
 	public void setFACE_SERIE(String fACE_SERIE) {
-		FACE_SERIE = notNull(fACE_SERIE);
+		FACE_SERIE = Gtools.notNull(fACE_SERIE);
 	}
 
 	/**
 	 * @param fACE_PREIMPRESO the fACE_PREIMPRESO to set
 	 */
 	public void setFACE_PREIMPRESO(String fACE_PREIMPRESO) {
-		FACE_PREIMPRESO = notNull(fACE_PREIMPRESO);
+		FACE_PREIMPRESO = Gtools.notNull(fACE_PREIMPRESO);
 	}
 
 	/**
 	 * @param sERIEFACTURA the sERIEFACTURA to set
 	 */
 	public void setSERIECOD(String sERIECOD) {
-		SERIECOD = notNull(sERIECOD);
+		SERIECOD = Gtools.notNull(sERIECOD);
 	}
 
 	/**
 	 * @param fACTURA the fACTURA to set
 	 */
 	public void setFACTURACOD(String fACTURACOD) {
-		FACTURACOD = notNull(fACTURACOD);
+		FACTURACOD = Gtools.notNull(fACTURACOD);
 	}
 
 	/**
@@ -412,126 +411,126 @@ public class Guia {
 	 * @return the fPREAUTORIZA
 	 */
 	public String getFPREAUTORIZA() {
-		return notNull(FPREAUTORIZA);
+		return Gtools.notNull(FPREAUTORIZA);
 	}
 
 	/**
 	 * @return the fAUTORIZA
 	 */
 	public String getFAUTORIZA() {
-		return notNull(FAUTORIZA);
+		return Gtools.notNull(FAUTORIZA);
 	}
 
 	/**
 	 * @return the fACREDITA
 	 */
 	public String getFACREDITA() {
-		return notNull(FACREDITA);
+		return Gtools.notNull(FACREDITA);
 	}
 
 	/**
 	 * @return the fFACTURAGTX
 	 */
 	public String getFFACTURAGTX() {
-		return notNull(FFACTURAGTX);
+		return Gtools.notNull(FFACTURAGTX);
 	}
 
 	/**
 	 * @return the fFACTURAGUA
 	 */
 	public String getFFACTURAGUA() {
-		return notNull(FFACTURAGUA);
+		return Gtools.notNull(FFACTURAGUA);
 	}
 
 	/**
 	 * @return the uPREAUTORIZA
 	 */
 	public String getUPREAUTORIZA() {
-		return notNull(UPREAUTORIZA);
+		return Gtools.notNull(UPREAUTORIZA);
 	}
 
 	/**
 	 * @return the uAUTORIZA
 	 */
 	public String getUAUTORIZA() {
-		return notNull(UAUTORIZA);
+		return Gtools.notNull(UAUTORIZA);
 	}
 
 	/**
 	 * @return the uACREDITA
 	 */
 	public String getUACREDITA() {
-		return notNull(UACREDITA);
+		return Gtools.notNull(UACREDITA);
 	}
 
 	/**
 	 * @return the uFACTURAGTX
 	 */
 	public String getUFACTURAGTX() {
-		return notNull(UFACTURAGTX);
+		return Gtools.notNull(UFACTURAGTX);
 	}
 
 	/**
 	 * @return the uFACTURAGUA
 	 */
 	public String getUFACTURAGUA() {
-		return notNull(UFACTURAGUA);
+		return Gtools.notNull(UFACTURAGUA);
 	}
 
 	/**
 	 * @return the lIQUIDADORAG
 	 */
 	public String getLIQUIDADORAG() {
-		return notNull(LIQUIDADORAG);
+		return Gtools.notNull(LIQUIDADORAG);
 	}
 
 	/**
 	 * @return the lIQUIDADOAG
 	 */
 	public String getLIQUIDADOAG() {
-		return notNull(LIQUIDADOAG);
+		return Gtools.notNull(LIQUIDADOAG);
 	}
 
 	/**
 	 * @return the nOCUADRECAJA
 	 */
 	public String getNOCUADRECAJA() {
-		return notNull(NOCUADRECAJA);
+		return Gtools.notNull(NOCUADRECAJA);
 	}
 
 	/**
 	 * @return the fECHACUADRE
 	 */
 	public String getFECHACUADRE() {
-		return notNull(FECHACUADRE);
+		return Gtools.notNull(FECHACUADRE);
 	}
 
 	/**
 	 * @return the nOMBRELIQUI
 	 */
 	public String getNOMBRELIQUI() {
-		return notNull(NOMBRELIQUI);
+		return Gtools.notNull(NOMBRELIQUI);
 	}
 
 	/**
 	 * @return the nOMBREUSULI
 	 */
 	public String getNOMBREUSULI() {
-		return notNull(NOMBREUSULI);
+		return Gtools.notNull(NOMBREUSULI);
 	}
 
 	/**
 	 * @return the uBICACIONLIQUI
 	 */
 	public String getUBICACIONLIQUI() {
-		return notNull(UBICACIONLIQUI);
+		return Gtools.notNull(UBICACIONLIQUI);
 	}
 
 	/**
 	 * @return the uBICACIONUSULI
 	 */
 	public String getUBICACIONUSULI() {
-		return notNull(UBICACIONUSULI);
+		return Gtools.notNull(UBICACIONUSULI);
 	}
 
 	/**
@@ -573,56 +572,56 @@ public class Guia {
 	 * @param uPREAUTORIZA the uPREAUTORIZA to set
 	 */
 	public void setUPREAUTORIZA(String uPREAUTORIZA) {
-		UPREAUTORIZA = notNull(uPREAUTORIZA);
+		UPREAUTORIZA = Gtools.notNull(uPREAUTORIZA);
 	}
 
 	/**
 	 * @param uAUTORIZA the uAUTORIZA to set
 	 */
 	public void setUAUTORIZA(String uAUTORIZA) {
-		UAUTORIZA = notNull(uAUTORIZA);
+		UAUTORIZA = Gtools.notNull(uAUTORIZA);
 	}
 
 	/**
 	 * @param uACREDITA the uACREDITA to set
 	 */
 	public void setUACREDITA(String uACREDITA) {
-		UACREDITA = notNull(uACREDITA);
+		UACREDITA = Gtools.notNull(uACREDITA);
 	}
 
 	/**
 	 * @param uFACTURAGTX the uFACTURAGTX to set
 	 */
 	public void setUFACTURAGTX(String uFACTURAGTX) {
-		UFACTURAGTX = notNull(uFACTURAGTX);
+		UFACTURAGTX = Gtools.notNull(uFACTURAGTX);
 	}
 
 	/**
 	 * @param uFACTURAGUA the uFACTURAGUA to set
 	 */
 	public void setUFACTURAGUA(String uFACTURAGUA) {
-		UFACTURAGUA = notNull(uFACTURAGUA);
+		UFACTURAGUA = Gtools.notNull(uFACTURAGUA);
 	}
 
 	/**
 	 * @param lIQUIDADORAG the lIQUIDADORAG to set
 	 */
 	public void setLIQUIDADORAG(String lIQUIDADORAG) {
-		LIQUIDADORAG = notNull(lIQUIDADORAG);
+		LIQUIDADORAG = Gtools.notNull(lIQUIDADORAG);
 	}
 
 	/**
 	 * @param lIQUIDADOAG the lIQUIDADOAG to set
 	 */
 	public void setLIQUIDADOAG(String lIQUIDADOAG) {
-		LIQUIDADOAG = notNull(lIQUIDADOAG);
+		LIQUIDADOAG = Gtools.notNull(lIQUIDADOAG);
 	}
 
 	/**
 	 * @param nOCUADRECAJA the nOCUADRECAJA to set
 	 */
 	public void setNOCUADRECAJA(String nOCUADRECAJA) {
-		NOCUADRECAJA = notNull(nOCUADRECAJA);
+		NOCUADRECAJA = Gtools.notNull(nOCUADRECAJA);
 	}
 
 	/**
@@ -636,112 +635,112 @@ public class Guia {
 	 * @param nOMBRELIQUI the nOMBRELIQUI to set
 	 */
 	public void setNOMBRELIQUI(String nOMBRELIQUI) {
-		NOMBRELIQUI = notNull(nOMBRELIQUI);
+		NOMBRELIQUI = Gtools.notNull(nOMBRELIQUI);
 	}
 
 	/**
 	 * @param nOMBREUSULI the nOMBREUSULI to set
 	 */
 	public void setNOMBREUSULI(String nOMBREUSULI) {
-		NOMBREUSULI = notNull(nOMBREUSULI);
+		NOMBREUSULI = Gtools.notNull(nOMBREUSULI);
 	}
 
 	/**
 	 * @param uBICACIONLIQUI the uBICACIONLIQUI to set
 	 */
 	public void setUBICACIONLIQUI(String uBICACIONLIQUI) {
-		UBICACIONLIQUI = notNull(uBICACIONLIQUI);
+		UBICACIONLIQUI = Gtools.notNull(uBICACIONLIQUI);
 	}
 
 	/**
 	 * @param uBICACIONUSULI the uBICACIONUSULI to set
 	 */
 	public void setUBICACIONUSULI(String uBICACIONUSULI) {
-		UBICACIONUSULI = notNull(uBICACIONUSULI);
+		UBICACIONUSULI = Gtools.notNull(uBICACIONUSULI);
 	}
 
 	/**
 	 * @return the eSTADO
 	 */
 	public String getESTADO() {
-		return notNull(ESTADO);
+		return Gtools.notNull(ESTADO);
 	}
 
 	/**
 	 * @return the fEMISION
 	 */
 	public String getFEMISION() {
-		return notNull(FEMISION);
+		return Gtools.notNull(FEMISION);
 	}
 
 	/**
 	 * @param fEMISION the fEMISION to set
 	 */
 	public void setFEMISION(String fEMISION) {
-		FEMISION = notNull(fEMISION);
+		FEMISION = Gtools.notNull(fEMISION);
 	}
 
 	/**
 	 * @return the tIPO_COBRO
 	 */
 	public String getTIPO_COBRO() {
-		return notNull(TIPO_COBRO);
+		return Gtools.notNull(TIPO_COBRO);
 	}
 
 	/**
 	 * @param tIPO_COBRO the tIPO_COBRO to set
 	 */
 	public void setTIPO_COBRO(String tIPO_COBRO) {
-		TIPO_COBRO = notNull(tIPO_COBRO);
+		TIPO_COBRO = Gtools.notNull(tIPO_COBRO);
 	}
 
 	/**
 	 * @return the RUTA
 	 */
 	public String getRUTA() {
-		return notNull(RUTA);
+		return Gtools.notNull(RUTA);
 	}
 
 	/**
 	 * @param tIPO_COBRO the Ruta to set
 	 */
 	public void setRUTA(String Ruta) {
-		RUTA = notNull(Ruta);
+		RUTA = Gtools.notNull(Ruta);
 	}
 
 	/**
 	 * @return the vALORSERVICIO
 	 */
 	public String getVALORSERVICIO() {
-		return notNull(VALORSERVICIO);
+		return Gtools.notNull(VALORSERVICIO);
 	}
 
 	/**
 	 * @return the vALORACREDITAR
 	 */
 	public String getVALORACREDITAR() {
-		return notNull(VALORACREDITAR);
+		return Gtools.notNull(VALORACREDITAR);
 	}
 
 	/**
 	 * @param vALORSERVICIO the vALORSERVICIO to set
 	 */
 	public void setVALORSERVICIO(String vALORSERVICIO) {
-		VALORSERVICIO = notNull(vALORSERVICIO);
+		VALORSERVICIO = Gtools.notNull(vALORSERVICIO);
 	}
 
 	/**
 	 * @param vALORACREDITAR the vALORACREDITAR to set
 	 */
 	public void setVALORACREDITAR(String vALORACREDITAR) {
-		VALORACREDITAR = notNull(vALORACREDITAR);
+		VALORACREDITAR = Gtools.notNull(vALORACREDITAR);
 	}
 
 	/**
 	 * @param eSTADO the eSTADO to set
 	 */
 	public void setESTADO(String eSTADO) {
-		eSTADO = notNull(eSTADO);
+		eSTADO = Gtools.notNull(eSTADO);
 		switch (eSTADO) {
 		case "N":
 			this.ESTADO = "PENDIENTE";

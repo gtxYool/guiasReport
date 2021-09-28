@@ -1,5 +1,7 @@
 package com.guatex.sacod_reporteguias.entities;
 
+import com.guatex.sacod_reporteguias.utilities.Gtools;
+
 public class E_AjusteCOD_ACR {
 
 	private String Correlativvo;
@@ -11,119 +13,116 @@ public class E_AjusteCOD_ACR {
 	private String Noguia;
 	private String Monto;
 
-	private String notNull(String var) {
-		return var != null ? var.trim() : "";
-	}
 
 	/**
 	 * @return the Correlativvo
 	 */
 	public String getCorrelativvo() {
-		return notNull(Correlativvo);
+		return Gtools.notNull(Correlativvo);
 	}
 
 	/**
 	 * @param Correlativvo the Correlativvo to set
 	 */
 	public void setCorrelativvo(String Correlativvo) {
-		this.Correlativvo = notNull(Correlativvo);
+		this.Correlativvo = Gtools.notNull(Correlativvo);
 	}
 
 	/**
 	 * @return the Tipo
 	 */
 	public String getTipo() {
-		return notNull(Tipo).contains("D") ? "Debito" : "Credito";
+		return Gtools.notNull(Tipo).contains("D") ? "Debito" : "Credito";
 	}
 
 	/**
 	 * @param Tipo the Tipo to set
 	 */
 	public void setTipo(String Tipo) {
-		this.Tipo = notNull(Tipo).equalsIgnoreCase("D") ? "Debito" : "Credito";
+		this.Tipo = Gtools.notNull(Tipo).equalsIgnoreCase("D") ? "Debito" : "Credito";
 	}
 
 	/**
 	 * @return the CodCob
 	 */
 	public String getCodCob() {
-		return notNull(CodCob);
+		return Gtools.notNull(CodCob);
 	}
 
 	/**
 	 * @param CodCob the CodCob to set
 	 */
 	public void setCodCob(String CodCob) {
-		this.CodCob = notNull(CodCob);
+		this.CodCob = Gtools.notNull(CodCob);
 	}
 
 	/**
 	 * @return the Aplicado
 	 */
 	public String getAplicado() {
-		return notNull(Aplicado).contains("S") ? "Si" : "No";
+		return Gtools.notNull(Aplicado).contains("S") ? "Si" : "No";
 	}
 
 	/**
 	 * @param Aplicado the Aplicado to set
 	 */
 	public void setAplicado(String Aplicado) {
-		this.Aplicado = notNull(Aplicado).equalsIgnoreCase("S") ? "Si" : "No";
+		this.Aplicado = Gtools.notNull(Aplicado).equalsIgnoreCase("S") ? "Si" : "No";
 	}
 
 	/**
 	 * @return the Autorizacion
 	 */
 	public String getAutorizacion() {
-		return notNull(Autorizacion);
+		return Gtools.notNull(Autorizacion);
 	}
 
 	/**
 	 * @param Autorizacion the Autorizacion to set
 	 */
 	public void setAutorizacion(String Autorizacion) {
-		this.Autorizacion = notNull(Autorizacion);
+		this.Autorizacion = Gtools.notNull(Autorizacion);
 	}
 
 	/**
 	 * @return the Descripcion
 	 */
 	public String getDescripcion() {
-		return notNull(Descripcion);
+		return Gtools.notNull(Descripcion);
 	}
 
 	/**
 	 * @param Descripcion the Descripcion to set
 	 */
 	public void setDescripcion(String Descripcion) {
-		this.Descripcion = notNull(Descripcion);
+		this.Descripcion = Gtools.notNull(Descripcion);
 	}
 
 	/**
 	 * @return the Noguia
 	 */
 	public String getNoguia() {
-		return notNull(Noguia);
+		return Gtools.notNull(Noguia);
 	}
 
 	/**
 	 * @param Noguia the Noguia to set
 	 */
 	public void setNoguia(String Noguia) {
-		this.Noguia = notNull(Noguia);
+		this.Noguia = Gtools.notNull(Noguia);
 	}
 
 	/**
 	 * @return the Monto
 	 */
 	public String getMonto() {
-		return notNull(Monto);
+		return Gtools.redondearString(Monto);
 	}
 
 	/**
 	 * @param Monto the Monto to set
 	 */
 	public void setMonto(String Monto) {
-		this.Monto = notNull(Monto);
+		this.Monto = Gtools.redondearString(Monto);
 	}
 }

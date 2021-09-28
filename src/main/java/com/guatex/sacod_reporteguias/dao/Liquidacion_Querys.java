@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.guatex.sacod_reporteguias.entities.E_BoletaxRecibo;
 import com.guatex.sacod_reporteguias.entities.GuiaXLiquidacion;
 import com.guatex.sacod_reporteguias.entities.PuntoLiquidacion;
 import com.guatex.sacod_reporteguias.entities.ReciboCaja;
@@ -131,7 +132,7 @@ public class Liquidacion_Querys extends Conexion {
 					rbc.setPtoDes(rs.getString("PTODES"));
 					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
 					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.setAcreditado(rs.getString("ACREDITADO"));
 					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
@@ -139,7 +140,7 @@ public class Liquidacion_Querys extends Conexion {
 					recibos.add(rbc);
 				} else {
 					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
 				}
@@ -183,7 +184,7 @@ public class Liquidacion_Querys extends Conexion {
 					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
 
 					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.setAcreditado(rs.getString("ACREDITADO"));
 					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
@@ -191,7 +192,7 @@ public class Liquidacion_Querys extends Conexion {
 					recibos.add(rbc);
 				} else {
 					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
 				}
@@ -238,7 +239,7 @@ public class Liquidacion_Querys extends Conexion {
 					// solicitaron mostrar la informacion de esta manera. Esta feo, lo se.
 
 					rbc.setBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.setBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.setAcreditado(rs.getString("ACREDITADO"));
 					rbc.setBoletaDepElec(rs.getString("BOLETADE"));
@@ -246,7 +247,7 @@ public class Liquidacion_Querys extends Conexion {
 					recibos.add(rbc);
 				} else {
 					rbc.concatBancoBoletaMonto(!monto.equalsIgnoreCase("0") ? mapBanco(rs.getString("BANCO")) + " - "
-							+ notNull(rs.getString("BOLETADB")) + " - " +"Q "+ monto : "");
+							+ notNull(rs.getString("BOLETADB")) + " - " + "Q " + monto : "");
 					rbc.concatBoletaTransporte(rs.getString("BOLETATR"));
 					rbc.concatBoletaDepElec(rs.getString("BOLETADE"));
 				}
@@ -303,6 +304,60 @@ public class Liquidacion_Querys extends Conexion {
 			CloseAll(con, ps, rs);
 		}
 		return recibo;
+	}
+
+	/**
+	 * select * from BOLETAS_COD where cast(fecha as DATE) between CAST(? as DATE)
+	 * and CAST(? as DATE)
+	 */
+
+	public List<E_BoletaxRecibo> getBoletasEscaneadas(String fechaIni, String fechaFin) {
+		List<E_BoletaxRecibo> boletas = new LinkedList<>();
+		try {
+			con = getConnection();
+			String query = "SELECT " + 
+					"    CONVERT(VARCHAR(10), B.FECHA, 103) as FECHA, " + 
+					"    G.NOGUIA, " + 
+					"    B.RECIBOCOD, " + 
+					"    B.NOBOLETA, " + 
+					" 	 B.USUARIO, " + 
+					"	 P.NOMBRE, " + 
+					" 	 B.RUTA, "+
+					"    O.NOMBRE AS NOMBRE_RUTA, " + 
+					"    B.PLACA " + 
+					"FROM " + 
+					"    BOLETAS_COD B " + 
+					"    INNER JOIN OPERUTAS O ON O.CODIGO = B.RUTA " + 
+					"    INNER JOIN OPEPERSONAL P ON P.CODIGO = B.USUARIO "+
+					"    INNER JOIN GUIASCOD G ON G.RECIBOCOD = B.RECIBOCOD " + 
+					"WHERE " + 
+					"    cast(fecha as DATE) between CAST(? as DATE) " + 
+					"    and CAST(? as DATE) " + 
+					"ORDER BY " + 
+					"    B.FECHA ASC ";
+			ps = con.prepareStatement(query);
+			ps.setString(1, fechaIni);
+			ps.setString(2, fechaFin);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				E_BoletaxRecibo boleta = new E_BoletaxRecibo();
+				boleta.setFecha(rs.getString("FECHA"));
+				boleta.setNoBoleta(rs.getString("NOBOLETA"));
+				boleta.setPlaca(rs.getString("PLACA"));
+				boleta.setReciboCOD(rs.getString("RECIBOCOD"));
+				boleta.setRuta(rs.getString("RUTA"));
+				boleta.setUsuario(rs.getString("USUARIO"));
+				boleta.setNombre_Usuario(rs.getString("NOMBRE"));
+				boleta.setNoguia(rs.getString("NOGUIA"));
+				boleta.setNombre_Ruta(rs.getString("NOMBRE_RUTA"));
+				boletas.add(boleta);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			CloseAll(con, ps, rs);
+		}
+		return boletas;
 	}
 
 	/**

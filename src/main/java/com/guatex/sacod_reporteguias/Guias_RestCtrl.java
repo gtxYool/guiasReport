@@ -3,6 +3,7 @@ package com.guatex.sacod_reporteguias;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import com.guatex.sacod_reporteguias.dao.*;
 import com.guatex.sacod_reporteguias.entities.*;
@@ -20,9 +22,10 @@ import com.guatex.sacod_reporteguias.entities.*;
 @RequestMapping("/GuiaCOD")
 public class Guias_RestCtrl {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Guias_RestCtrl.class, args);
-	}
+	/*
+	 * public static void main(String[] args) {
+	 * SpringApplication.run(Guias_RestCtrl.class, args); }
+	 */
 
 	public static final Logger logger = LogManager.getLogger(Guias_RestCtrl.class);
 
@@ -241,8 +244,24 @@ public class Guias_RestCtrl {
 
 	@GetMapping("/getDataGuiaCOD")
 	public Guia getDataGuiaCOD(@RequestParam String noguia) {
-		Guia guia = new Guias_Querys().getDataGuiaCOD(noguia);
-		return new D_AjusteCOD_ACR().getAjustesCOD("", "", guia.getNOGUIA()).isEmpty() ? guia : null;
+		Guia guia = null;
+		try {
+			guia = new Guias_Querys().getDataGuiaCOD(noguia);
+			if (!guia.getP_ESTATUS().equalsIgnoreCase("ENTREGADA")) {
+				throw new NoSuchElementException(
+						"No es posible realizar la operación;Guía: " + noguia + " debe estar entregada");
+			}
+		} catch (Exception e) {
+			throw new NoSuchElementException(e.getMessage());
+		}
+		if (guia.getIdReporte().equalsIgnoreCase("S")) {
+			throw new NoSuchElementException("No es posible realizar la operación;Guía: " + noguia + " ya autorizada");
+		}
+		if (!new D_AjusteCOD_ACR().getAjustesCOD("", "", guia.getNOGUIA()).isEmpty()) {
+			throw new NoSuchElementException(
+					"No es posible realizar la operación;Guía: " + noguia + " ya cuenta con nota de débito");
+		}
+		return guia;
 	}
 
 }

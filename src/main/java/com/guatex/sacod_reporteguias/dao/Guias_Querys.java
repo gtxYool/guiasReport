@@ -1146,22 +1146,35 @@ public class Guias_Querys extends Conexion {
 		}
 	}
 
-	public Guia getDataGuiaCOD(String noguia) {
+	public Guia getDataGuiaCOD(String noguia) throws Exception{
 		Guia guia = new Guia();
 		try {
 			con = getConnection();
-			String query = " Select convert(varchar(10),FECHA_GUIA,103) as FECHA_GUIA,PTOORI,PTODES,"
-					+ "CODCOB,VALORCOD,VALORSERVICIO,VALORACREDITAR,DESTINATARIO,RECIBOCOD,"
-					+ "convert(varchar(10),FECHA_ENTREGA,103)as FECHA_ENTREGA "
-					+ " from GUIASCOD "
-					+ "where noguia=? "
-					+ "and ISNULL(reportefin,'N')='N' ";
+			String query = "Select " + 
+					"    ISNULL(G.P_ESTATUS, 'N') AS P_ESTATUS, " + 
+					"    convert(varchar(10), G.FECHA, 103) as FECHA_GUIA, " + 
+					"    G.PTOORI, " + 
+					"    G.PTODES, " + 
+					"    G.CODCOB, " + 
+					"    round(G.COD_VALORACOBRAR, 2) as VALORCOD, " + 
+					"    GC.VALORSERVICIO, " + 
+					"    GC.VALORACREDITAR, " + 
+					"    GC.DESTINATARIO, " + 
+					"    GC.RECIBOCOD, " + 
+					"    convert(varchar(10), GC.FECHA_ENTREGA, 103) as FECHA_ENTREGA, " + 
+					"    ISNULL(GC.REPORTEFIN, 'N') AS REPORTEFIN " + 
+					"from " + 
+					"    GUIAS G " + 
+					"    LEFT OUTER JOIN GUIASCOD GC ON G.NOGUIA = GC.NOGUIA " + 
+					"where " + 
+					"    G.noguia = ?";
 			ps = con.prepareStatement(query);
 			ps.setString(1, noguia);
 
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
+				guia.setP_ESTATUS(rs.getString("P_ESTATUS"));
 				guia.setFECHA(rs.getString("FECHA_GUIA"));
 				guia.setPTOORI(rs.getString("PTOORI"));
 				guia.setPTODES(rs.getString("PTODES"));
@@ -1172,11 +1185,14 @@ public class Guias_Querys extends Conexion {
 				guia.setNOMDES(rs.getString("DESTINATARIO"));
 				guia.setCOD_RECIBO(rs.getString("RECIBOCOD"));
 				guia.setPFECHA(rs.getString("FECHA_ENTREGA"));
+				guia.setIdReporte(rs.getString("REPORTEFIN"));
 				guia.setNOGUIA(noguia);
+			}else {
+				throw new Exception("No es posible realizar la operación;Asegurece que sea una guía COD");
 			}
 		} catch (Exception e) {
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
-			e.printStackTrace();
+			throw new Exception(e.getMessage());	
 		} finally {
 			CloseAll(con, cs, rs);
 		}

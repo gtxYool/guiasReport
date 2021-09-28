@@ -20,12 +20,12 @@ public class D_AjusteCOD_ACR extends Conexion {
 	private CallableStatement cs;
 	private PreparedStatement ps;
 
-	public boolean InsertAjusteAcr_Debito(String noguia, String descripcion) {
+	public boolean InsertAjusteAcr_Debito(String noguia, String descripcion, String Usuario) {
 		try {
 			con = getConnection();
 			Guia guia = new Guias_Querys().getDataGuiaCOD(noguia);
 
-			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO) VALUES (?,?,?,?,?,?)";
+			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO,USUARIO,FECHAHORA) VALUES (?,?,?,?,?,?,?,getDate())";
 
 			ps = con.prepareStatement(query);
 			ps.setString(1, noguia);
@@ -33,16 +33,9 @@ public class D_AjusteCOD_ACR extends Conexion {
 			ps.setString(3, guia.getCODCOB());
 			ps.setString(4, "N");
 			ps.setString(5, descripcion);
-			ps.setString(6, guia.getVALORACREDITAR());
-
-			boolean insertAjuste1 = ps.executeUpdate() > 0;
-
-			ps.setString(6, guia.getVALORSERVICIO());
-
-			boolean insertAjuste2 = ps.executeUpdate() > 0;
-
-			return insertAjuste1 && insertAjuste2;
-
+			ps.setString(6, guia.getCOD_VALORACOBRAR());
+			ps.setString(7, Usuario);
+			return ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			logger.info("\nAlgo malió sal,err:" + e.getMessage());
 			e.printStackTrace();
@@ -52,10 +45,10 @@ public class D_AjusteCOD_ACR extends Conexion {
 		return false;
 	}
 
-	public boolean InsertAjusteAcr_Credito(String codcob, String monto, String descripcion) {
+	public boolean InsertAjusteAcr_Credito(String codcob, String monto, String descripcion, String Usuario) {
 		try {
 			con = getConnection();
-			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO) VALUES (?,?,?,?,?,?)";
+			String query = "INSERT INTO AJUSTESCOD_ACR(NOGUIA,TIPO,CODCOB,APLICADO,DESCRIPCION,MONTO,USUARIO,FECHAHORA) VALUES (?,?,?,?,?,?,?,getDate())";
 
 			ps = con.prepareStatement(query);
 			ps.setString(1, "");
@@ -64,6 +57,7 @@ public class D_AjusteCOD_ACR extends Conexion {
 			ps.setString(4, "N");
 			ps.setString(5, descripcion);
 			ps.setString(6, monto);
+			ps.setString(7, Usuario);
 
 			boolean insertAjuste = ps.executeUpdate() > 0;
 			return insertAjuste;
@@ -192,4 +186,5 @@ public class D_AjusteCOD_ACR extends Conexion {
 		}
 		return ajustes;
 	}
+
 }
