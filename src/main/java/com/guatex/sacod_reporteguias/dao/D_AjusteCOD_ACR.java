@@ -187,4 +187,34 @@ public class D_AjusteCOD_ACR extends Conexion {
 		return ajustes;
 	}
 
+        /**
+         * Método para la anulación COD utilizando el procedimiento almacenado SACOD_ANULACIONCOD
+         * @param noguia: número de guía
+         * @param descripcion: descripción de la anulación de la guía COD
+         * @param Usuario: Usuario que generó la anulacion COD
+         * @return S = cuando el procedimiento se realizó correctamente.
+         *         N = cuando ocurrió excepcion en microservicio.
+         *         cadena string = mensaje de error de DB.
+         */
+        public String AnulacionCOD(String noguia, String descripcion, String Usuario) {
+		try {
+			con = getConnection();
+                        String respuestaAnulacionCOD = "";
+			cs = con.prepareCall("{call SACOD_ANULACIONCOD(?,?,?)}");
+			cs.setString(1, noguia);
+			cs.setString(2, descripcion);
+			cs.setString(3, Usuario);
+                        rs = cs.executeQuery();
+                        while(rs.next()){
+                            respuestaAnulacionCOD = quitaNulo(rs.getString(1));
+                        }
+			return respuestaAnulacionCOD;
+		} catch (Exception e) {
+			logger.info("\nAlgo malió sal,err:" + e.getMessage());
+			e.printStackTrace();
+                        return "N";
+		} finally {
+			CloseAll(con, cs, rs);
+		}
+	}
 }

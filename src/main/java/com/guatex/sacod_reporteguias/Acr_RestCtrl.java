@@ -283,5 +283,17 @@ public class Acr_RestCtrl {
 		return pendientes;
 
 	}
+        
+        /**
+         * Método llamado por el cliente para la anulación COD
+         * @param noguia
+         * @param desc
+         * @param usuario
+         * @return 
+         */
+        @GetMapping("/anulacioncod")
+	public String anulacionCOD(@RequestParam String noguia, @RequestParam String desc, @RequestParam String usuario){
+		return new D_AjusteCOD_ACR().AnulacionCOD(noguia, desc, usuario);
+	}
 
 }
