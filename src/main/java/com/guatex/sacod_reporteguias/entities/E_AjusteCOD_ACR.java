@@ -13,7 +13,6 @@ public class E_AjusteCOD_ACR {
 	private String Noguia;
 	private String Monto;
 
-
 	/**
 	 * @return the Correlativvo
 	 */
@@ -32,14 +31,16 @@ public class E_AjusteCOD_ACR {
 	 * @return the Tipo
 	 */
 	public String getTipo() {
-		return Gtools.notNull(Tipo).contains("D") ? "Debito" : "Credito";
+		return Gtools.notNull(Tipo).equalsIgnoreCase("D") ? "Débito"
+				: Gtools.notNull(Tipo).equalsIgnoreCase("C") ? "Crédito" : "Anulación";
 	}
 
 	/**
 	 * @param Tipo the Tipo to set
 	 */
 	public void setTipo(String Tipo) {
-		this.Tipo = Gtools.notNull(Tipo).equalsIgnoreCase("D") ? "Debito" : "Credito";
+		this.Tipo = Gtools.notNull(Tipo).equalsIgnoreCase("D") ? "Débito"
+				: Gtools.notNull(Tipo).equalsIgnoreCase("C") ? "Crédito" : "Anulación";
 	}
 
 	/**

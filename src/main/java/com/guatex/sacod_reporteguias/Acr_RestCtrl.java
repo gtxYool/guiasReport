@@ -24,9 +24,10 @@ import com.guatex.sacod_reporteguias.entities.*;
 @RequestMapping("/AcrCOD")
 public class Acr_RestCtrl {
 
-	/*public static void main(String[] args) {
-		SpringApplication.run(Acr_RestCtrl.class, args);
-	}*/
+	/*
+	 * public static void main(String[] args) {
+	 * SpringApplication.run(Acr_RestCtrl.class, args); }
+	 */
 
 	public static final Logger logger = LogManager.getLogger(Acr_RestCtrl.class);
 
@@ -263,6 +264,11 @@ public class Acr_RestCtrl {
 								.filter(ajus -> ajus.getTipo().contains("C")).collect(Collectors.toList());
 	}
 
+	/**
+	 * 
+	 * @param autorizacion
+	 * @return
+	 */
 	@GetMapping("/getAjustesCODAp")
 	public List<E_AjusteCOD_ACR> getAjustesCODAp(@RequestParam String autorizacion) {
 		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
@@ -270,6 +276,63 @@ public class Acr_RestCtrl {
 		return ajustes;
 	}
 
+	/**
+	 * obtiene los ajustes o notas de debito/credito y las anulaciones este metodo
+	 * para un rango de fechas y autorizacion, tambien llama al metodo para enlazar
+	 * las anulaciones a una autorizacion
+	 * 
+	 * @param autorizacion numero de autorizacion o IDREPORTE
+	 * @param fechaIni     fecha de inicio para el rango de autorizacion
+	 * @param fechaFin     fecha de fin para el rango de autorizacion
+	 * @return listado de ajustes y anulaciones
+	 */
+	@GetMapping("/getAjustesYAnulacionesCOD")
+	public List<E_AjusteCOD_ACR> getAjustesYAnulacionesCOD(@RequestParam String autorizacion,
+			@RequestParam String fechaIni, @RequestParam String fechaFin) {
+
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		ajustes.addAll(new D_AjusteCOD_ACR().getAjustesCOD(autorizacion));
+		ajustes.addAll(new D_AnulacionCOD().getAnulacionesCOD(autorizacion, fechaIni, fechaFin));
+		new D_AnulacionCOD().updateAnulacionesCOD(autorizacion, fechaIni, fechaFin);// enlaza las anulaciones a una
+																					// autorizacion
+		return ajustes;
+	}
+
+	/**
+	 * obtiene los ajustes o notas de debito/credito y las anulaciones este metodo
+	 * se llamara desde las reimpresiones
+	 * 
+	 * @param autorizacion numero de autorizacion o IDREPORTE
+	 * @return listado de ajustes y anulaciones
+	 */
+	@GetMapping("/getAjustesYAnulacionesCOD")
+	public List<E_AjusteCOD_ACR> getAjustesYAnulacionesCOD(@RequestParam String autorizacion) {
+		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
+		ajustes.addAll(new D_AjusteCOD_ACR().getAjustesCOD(autorizacion));
+		ajustes.addAll(new D_AnulacionCOD().getAnulacionesCOD(autorizacion));
+		return ajustes;
+	}
+
+	/**
+	 * Método llamado por el cliente para la anulación COD
+	 * 
+	 * @param noguia
+	 * @param desc
+	 * @param usuario
+	 * @return
+	 */
+	@GetMapping("/anulacioncod")
+	public String anulacionCOD(@RequestParam String noguia, @RequestParam String desc, @RequestParam String usuario) {
+		return new D_AnulacionCOD().AnulacionCOD(noguia, desc, usuario);
+	}
+
+	/**
+	 * 
+	 * @param fechaIni
+	 * @param fechaFin
+	 * @return
+	 * @throws SQLException
+	 */
 	@GetMapping("/getBoletasEscaneadas")
 	public List<E_BoletaxRecibo> getBoletasEscaneadas(@RequestParam String fechaIni, @RequestParam String fechaFin)
 			throws SQLException {
@@ -282,18 +345,6 @@ public class Acr_RestCtrl {
 		}
 		return pendientes;
 
-	}
-        
-        /**
-         * Método llamado por el cliente para la anulación COD
-         * @param noguia
-         * @param desc
-         * @param usuario
-         * @return 
-         */
-        @GetMapping("/anulacioncod")
-	public String anulacionCOD(@RequestParam String noguia, @RequestParam String desc, @RequestParam String usuario){
-		return new D_AjusteCOD_ACR().AnulacionCOD(noguia, desc, usuario);
 	}
 
 }
