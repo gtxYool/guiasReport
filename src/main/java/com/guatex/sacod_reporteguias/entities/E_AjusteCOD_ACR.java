@@ -31,8 +31,8 @@ public class E_AjusteCOD_ACR {
 	 * @return the Tipo
 	 */
 	public String getTipo() {
-		return Gtools.notNull(Tipo).equalsIgnoreCase("D") ? "Débito"
-				: Gtools.notNull(Tipo).equalsIgnoreCase("C") ? "Crédito" : "Anulación";
+		return Gtools.notNull(Tipo).contains("A") ? "Anulación"
+				: Gtools.notNull(Tipo).contains("C") ? "Crédito" : "Débito";
 	}
 
 	/**

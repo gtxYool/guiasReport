@@ -259,7 +259,8 @@ public class Acr_RestCtrl {
 		return tipo == 0 ? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia)
 				: tipo == 1
 						? AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
-								.filter(ajus -> ajus.getTipo().contains("D")).collect(Collectors.toList())
+								.filter(ajus -> ajus.getTipo().contains("D") || ajus.getTipo().contains("A"))
+								.collect(Collectors.toList())
 						: AjusteCOD.getAjustesCOD(autorizacion, codcob, noguia).stream()
 								.filter(ajus -> ajus.getTipo().contains("C")).collect(Collectors.toList());
 	}
@@ -305,7 +306,7 @@ public class Acr_RestCtrl {
 	 * @param autorizacion numero de autorizacion o IDREPORTE
 	 * @return listado de ajustes y anulaciones
 	 */
-	@GetMapping("/getAjustesYAnulacionesCOD")
+	@GetMapping("/getAjustesYAnulacionesCODReimpresion")
 	public List<E_AjusteCOD_ACR> getAjustesYAnulacionesCOD(@RequestParam String autorizacion) {
 		List<E_AjusteCOD_ACR> ajustes = new LinkedList<>();
 		ajustes.addAll(new D_AjusteCOD_ACR().getAjustesCOD(autorizacion));
